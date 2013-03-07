@@ -1,0 +1,24 @@
+#!/bin/bash
+cd $1
+#echo "Now, try to find the newest file in dir:--->"`pwd`
+s_files=`find .  -name Summary`
+tmp_file=noinit
+#num_of_files=${#s_files[@]}
+#num_of_files=expr length "s_files"
+#echo "We got more than files, now checking files one by one."
+for file in $s_files
+do
+        #echo -e ".\c"
+	if [ "$tmp_file" = "noinit" ]; then
+		tmp_file=$file
+		target_file=$file
+	else
+		tmp_file=`find $file -newer $target_file`
+		if [ "$tmp_file" != "" ]; then
+			target_file=$tmp_file
+		fi
+	fi
+done
+#echo
+echo $target_file
+exit 0

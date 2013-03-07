@@ -1,0 +1,46 @@
+#!/bin/bash
+# this script can work on my PC.
+if [ $# == 0 ]; then
+    echo "$0"
+    echo -e "\tusage:\n\t\t $0 <userinfo> <repoinfo> <title> <body> <assignee> <milestone> <label1> [lable2]\n"
+#    echo -e "\te.g.:\n\t\t $0 yourname:password reedwind/lib \"new bug\" \"bug is: bla bla bla\" reedwind 0 bug invalid\n"
+    echo -e "\tour acpica issues could use it like this:\n"
+    echo -e "\t\t $0 githubUserName:password otcshare/acpica \"bug title\" \"bug body\" assignee 0 bug invalid\n"
+    exit 1
+fi
+
+jsonclient=curl
+userflag=user
+dataflag=data
+requestflag=request
+userinfo=$1
+requestinfo=POST
+
+#below is my repo, since our acpica repo is under otcshare/acpica, we may use otcshare/acpica instead of reedwind/lib.
+#urlinfo=https://api.github.com/repos/reedwind/lib/issues
+urlinfo=https://api.github.com/repos/
+urlinfo+="$2"
+urlinfo+="/issues"
+
+commandstring="$jsonclient"
+commandstring+=" --"$userflag
+commandstring+=" $userinfo"
+commandstring+=" --"$requestflag
+commandstring+=" $requestinfo"
+commandstring+=" --""$dataflag "
+
+#if we have only 7 args, we only have 1 labels.
+if [ $# == 7 ]; then
+    commandstring+=`echo "'{ \"title\": \"$3\", \"body\": \"$4\", \
+	           \"assignee\": \"$5\", \"labels\":[\"$7\"]}'"`
+fi
+#if we have 8 args, we have 2 labels.
+if [ $# == 8 ]; then
+    commandstring+=`echo "'{ \"title\": \"$3\", \"body\": \"$4\", \
+		   \"assignee\": \"$5\", \"labels\":[\"$7\",\"$8\"]}'"`
+fi
+commandstring+=" $urlinfo"
+#result=`$commandstring`
+echo $commandstring
+eval $commandstring
+exit 0

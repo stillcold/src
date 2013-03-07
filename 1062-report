@@ -1,0 +1,229 @@
+#!/bin/bash
+# file: report, this file is not a good one, first script by me.
+# copyleft: Intel Corp 2012
+# this file is designed for my own use, for ACPICA only.
+# please put the file Summary and this file into the same directory.
+# arthor: chao.guan@intel.com
+
+echo -e "\n\tNotice: Now you are use this shell: "$SHELL
+echo -e "\t--------------------------------------------------"
+echo -e "\t|\tThis file is degined by Intel crop.	|"
+echo -e "\t|\tFeel free to use it 			|"
+echo -e "\t|\t                    chao.guan@intel.com	|"
+echo -e "\t|\twhat needed to know by you:		|"
+echo -e "\t|\t  1) set enviroment variables:		|"
+echo -e "\t|\t      ACPICAHOME=root dir of acpica	|"
+echo -e "\t|\t      desktopdir=your desktop 		|"
+echo -e "\t|\t       you can change it to other dir	|"
+echo -e "\t|\t       I put several temp files there	|"
+echo -e "\t|\t  2) function of each file:		|"
+echo -e "\t|\t      Summary:->get test cases datas	|"
+echo -e "\t|\t      __STATUS_OF_TESTS:->tests datas	|"
+echo -e "\t|\t                             Good luck!	|"
+echo -e "\t|\t     The report processor now begins:	|"
+echo -e "\t-------------------------------------------------->\n"
+
+string_fail="FAIL"  		#key word
+string_tests="Tests"		#I've forgotten why this one here.
+number_of_test_case=0		#we all know this one.
+number_of_test=0
+test_case_with_bug_report=0
+test_with_bug_report=0
+step=1				#for a better look, I like it when I in USTC.
+				#this is a bad habit, will drop it, hackers cannot do it.
+path_to_RESULTS="tests/aslts/tmp/RESULTS" #can't change.
+rootdir=$ACPICAHOME 		#env variable, please set it.
+bug_demo="bdemo"		#key word for bug-demo
+conbranch="condbranches"	#key word for condbranches
+
+if [ "$rootdir" == "" ]; then
+	echo "invalid env, ACPICAHOME, set it to the home directory of acpica."
+	exit 1
+else
+	cd $rootdir
+	cd $path_to_RESULTS
+fi
+
+s_files=(`ls`) #force change s_files to an array.
+counter=0
+length=${#s_files[@]}
+
+#########################################################################
+#                          Step 1, your choice
+#########################################################################
+
+
+echo -e "Step "$step", your choice are needed here:"
+echo -e "\tYou want to use the default newest file?[y/n]:\c"
+
+read choice
+
+if [ "$choice" == "y" ]; then
+	index=$length 
+	let index-=1 #the last one, this method is not good enough.
+else 
+	echo -e "\n\tThis is all we got in this dir:\n"
+	while [ $counter -lt $length ]
+	do
+		echo -e "\t"$counter"\t"${s_files[$counter]}
+		let counter+=1
+	done
+
+	echo -e "\n\tchose the dir by the index before it:\c"
+
+	read index
+
+fi
+
+tmp_dir=${s_files[$index]}
+#echo $tmp_dir
+
+cd $tmp_dir
+
+#########################################################################
+#                Now we are in the sub directory of RESULTS.
+#########################################################################
+
+echo -e "\t***********now, we are here:\n\t\t " `pwd`
+
+Summary=$rootdir"/"$path_to_RESULTS"/"$tmp_dir"/"`mygetfile2report ./`
+__STATUS_OF_TESTS_n32=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/norm/32/__STATUS_OF_TESTS"
+__STATUS_OF_TESTS_n64=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/norm/64/__STATUS_OF_TESTS"
+__STATUS_OF_TESTS_s32=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/slack/32/__STATUS_OF_TESTS"
+__STATUS_OF_TESTS_s64=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/slack/64/__STATUS_OF_TESTS"
+__STATUS_OF_CASES_n32=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/norm/32/__STATUS_OF_TEST_CASES"
+__STATUS_OF_CASES_n64=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/norm/64/__STATUS_OF_TEST_CASES"
+__STATUS_OF_CASES_s32=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/slack/32/__STATUS_OF_TEST_CASES"
+__STATUS_OF_CASES_s64=$ACPICAHOME"/"$path_to_RESULTS"/"$tmp_dir"/slack/64/__STATUS_OF_TEST_CASES"
+
+let step+=1
+
+echo -e "\n\nStep "$step", The target files are now getted:"
+echo -e "\tThe following file is the newest of all:\n\t\t"$target_path
+echo -e "\tSummary: \n\t\t" $Summary
+echo -e "\t__STATUS_OF_TESTS: \n\t\t" $__STATUS_OF_TESTS_s64
+echo -e "\t__STATUS_OF_CASES: \n\t\t" $__STATUS_OF_CASES_s64
+
+if [ ! -f $__STATUS_OF_TESTS_n32 ]; then
+	echo "target file: "$__STATUS_OF_TESTS_n32" not exists."
+	exit 1
+fi
+
+if [ ! -f $__STATUS_OF_TESTS_n64 ]; then
+        echo "target file: "$__STATUS_OF_TESTS_n64" not exists."
+        exit 1
+fi
+
+if [ ! -f $__STATUS_OF_TESTS_s32 ]; then
+        echo "target file: "$__STATUS_OF_TESTS_s32" not exists."
+        exit 1
+fi
+
+if [ ! -f $__STATUS_OF_TESTS_s64 ]; then
+        echo "target file: "$__STATUS_OF_TESTS_s64" not exists."
+        exit 1
+fi
+
+if [ ! -f $__STATUS_OF_CASES_n32 ]; then
+        echo "target file: "$__STATUS_OF_CASES_n32" not exists."
+        exit 1
+fi
+if [ ! -f $__STATUS_OF_CASES_n64 ]; then
+        echo "target file: "$__STATUS_OF_CASES_n64" not exists."
+        exit 1
+fi
+
+if [ ! -f $__STATUS_OF_CASES_s32 ]; then
+        echo "target file: "$__STATUS_OF_CASES_s32" not exists."
+        exit 1
+fi
+
+if [ ! -f $__STATUS_OF_CASES_s64 ]; then
+        echo "target file: "$__STATUS_OF_CASES_s64" not exists."
+        exit 1
+fi
+
+##########################################################################
+#   			calculate number_of_test
+##########################################################################
+while read line
+do
+	let number_of_test+=1
+done < $__STATUS_OF_TESTS_n32
+
+while read line
+do
+        let number_of_test+=1
+done < $__STATUS_OF_TESTS_n64
+
+while read line
+do
+        let number_of_test+=1
+done < $__STATUS_OF_TESTS_s32
+
+while read line
+do
+        let number_of_test+=1
+done < $__STATUS_OF_TESTS_s64
+
+##########################################################################
+#                       calculate test_with_bug_report
+##########################################################################
+
+mkdir $desktopdir"/"$tmp_dir"/"
+
+cp $__STATUS_OF_TESTS_n32 $desktopdir"/"$tmp_dir"/n32"
+cp $__STATUS_OF_TESTS_n64 $desktopdir"/"$tmp_dir"/n64"
+cp $__STATUS_OF_TESTS_s32 $desktopdir"/"$tmp_dir"/s32"
+cp $__STATUS_OF_TESTS_s64 $desktopdir"/"$tmp_dir"/s64"
+
+cd $desktopdir"/"$tmp_dir
+
+test_with_bug_report=`grep -r "FAIL" ./* | wc -l`
+bad_demo_with_bug_report=`grep -r $bug_demo ./* | grep "FAIL" | wc -l`
+conbranch_with_bug_report=`grep -r $conbranch ./* | grep "FAIL" | wc -l`
+rm -r $desktopdir"/"$tmp_dir"/"
+
+##########################################################################
+#                       calculate statistics about test case
+##########################################################################
+
+while read line
+do
+        #echo ${line:0:4}
+        if [  ${#line} -gt 5 ]; then
+                #echo ${#line}
+                if [ "${line:0:4}" = "$string_fail" ]; then
+                        tmp_string=${line:11}
+                        #echo ${tmp_string}
+                        if [ ${tmp_string:0:1} = ":" ]; then
+                                tmp_number=${tmp_string:3:3}
+                                #echo $tmp_number
+                        else
+                                number_of_test_case=`expr $number_of_test_case + 1`
+                                if [ $tmp_string -gt 0 ]; then
+                                        test_case_with_bug_report=`expr $test_case_with_bug_report + 1`
+                                fi
+                        fi
+
+                fi
+        fi
+done < $Summary
+
+need_to_be_audited=`expr $test_with_bug_report - $bad_demo_with_bug_report`
+need_to_be_audited=`expr $need_to_be_audited - $conbranch_with_bug_report`
+
+let step+=1
+
+echo -e "\n\nStep "$step", report result:\n"
+echo -e "\n\t-------------------------------------------------"
+echo -e "\t|\ttotal test case number:           "$number_of_test_case"\t|"
+echo -e "\t|\ttest case number with bug report: "$test_case_with_bug_report"\t|"
+echo -e "\t|\ttests number:                     "$number_of_test"\t|"
+echo -e "\t|\ttest number with bug report:      "$test_with_bug_report"\t|"
+echo -e "\t|\tbad demo with bug report:         "$bad_demo_with_bug_report"\t|"
+echo -e "\t|\tcondbranches with bug report:     "$conbranch_with_bug_report"\t|"
+echo -e "\t|\tneed to be audited:               "$need_to_be_audited"\t|"
+echo -e "\t----------------------------------------------Done!\n"
+
+exit 0

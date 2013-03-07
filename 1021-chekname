@@ -1,0 +1,32 @@
+#!/bin/bash
+# file: report, this file is not a good one, first script by me.
+# copyleft: Intel Corp 2012
+# this file is designed for my own use, for ACPICA only.
+# please put the file Summary and this file into the same directory.
+# arthor: chao.guan@intel.com
+#
+# Change 100,000 to 100,000,000.
+# Change name to "Chao Guan".
+#
+
+cd 
+
+cd  trees/torvalds/linux/
+
+echo "Git status: " `tsocks git pull`
+
+number=`git log | head -100000000 | grep "Chao Guan" | wc -l`
+
+#echo $number
+
+if [ "$number" == "0" ]; then
+
+	echo "I am not on torvalds' git log yet."
+
+	exit 0
+
+fi
+
+echo "I am already on Torvalds's git log. Totally $number times."
+
+exit 0

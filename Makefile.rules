@@ -1,0 +1,4 @@
+clean :
+	rm $(BINDIR)/$(PROGS) $(BINDIR)/$(COMPILEOBJ)
+install :
+	install -D $(BINDIR)/$(PROGS) $(BINDIR)/$(FINALPROCNAME)

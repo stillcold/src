@@ -1,0 +1,39 @@
+BINDIR = ../bin
+COMPILEOBJ = obj.o
+FINALPROCNAME = magic
+PROGS = proc.exe
+
+CC = gcc -g
+
+CWARNINGFLAGS = \
+	-ansi \
+	-Wall \
+	-Wbad-function-cast \
+	-Wdeclaration-after-statement \
+	-Werror \
+	-Wformat=2 \
+	-Wmissing-declarations \
+	-Wmissing-prototypes \
+	-Wstrict-aliasing=0 \
+	-Wstrict-prototypes \
+	-Wswitch-default \
+	-Wpointer-arith \
+	-Wundef
+
+#
+# gcc 4+ flags                                                                           
+#
+CWARNINGFLAGS += \
+	-Waddress \
+	-Waggregate-return \
+	-Wchar-subscripts \
+	-Wempty-body \
+	-Wlogical-op \
+	-Wmissing-declarations \
+	-Wmissing-field-initializers \
+	-Wmissing-parameter-type \
+	-Wnested-externs \
+	-Wold-style-declaration \
+	-Wold-style-definition \
+	-Wredundant-decls \
+	-Wtype-limits

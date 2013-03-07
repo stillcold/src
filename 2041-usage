@@ -1,0 +1,35 @@
+1:	the meaning of the four-character-number prefix:
+
+	1234:	example of a prefix.
+		123:	main index of each file.
+			1:	the type of each file:
+				0->	c and h files
+				1->	script
+				2->	MIME files.
+				...	not defined yet.
+		4:	the version of each file, for the last number:
+			(4 is in fact hardly to happen here.)
+			0->	test version. 
+			1->	steady version.
+			2->	version 2.
+			...
+
+2:	to make sure that the Makefiles can work:
+
+	make sure that ../bin/ exists.
+	better add ../bin to PATH. (edit ~/.bashrc)
+    	modify Makefile.config and change SOURCECODE when to compile new code.
+
+3:	file description:
+	
+	script-prepare.sh:	namely prepare in ../bin/. 
+		
+		Command:
+			eg. 
+		
+			prepare 0021 (0021 should be unique in this folder.)
+			
+			then 0021-quick-sort.c will be write to Makefile.config1,
+			then one can use Makefile to build it, install it.
+
+			prepare quick-sort can also work.

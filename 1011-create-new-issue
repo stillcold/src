@@ -1,0 +1,14 @@
+#!/bin/bash
+curl --user "reedwind:2918g0180h6522" \
+     --request POST\
+     --data '{
+	 "title":"test5", 
+	 "body":"test use curl",
+	 "assignee":"reedwind",
+	 "labels":[
+	     "bug",
+	     "invalid"
+	     ]
+     }'\
+     https://api.github.com/repos/reedwind/lib/issues
+

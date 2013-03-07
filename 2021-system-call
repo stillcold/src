@@ -1,0 +1,2 @@
+define here:x86/include/generated/asm/unistd_64.h
+descript table: x86/syscalls/syscall_64.tbl

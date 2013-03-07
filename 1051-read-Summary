@@ -1,0 +1,118 @@
+#!/bin/bash
+# copyright: Intel Corp 2012
+# this file is designed for my own use.
+# please put the file Summary and this file into the same directory.
+# arthor: chao.guan@intel.com
+echo -e "\n\tNotice: Now you are use this shell: "$SHELL
+echo -e "\t--------------------------------------------------"
+echo -e "\t|\tThis file is degined by Intel crop.      |"
+echo -e "\t|\tFeel free to use it                      |"
+echo -e "\t|\tPlease contact chao.guan@intel.com       |"
+echo -e "\t|\tif you have any problems.      good luck!|"
+echo -e "\t|\tThe report processor now begins:         |"
+echo -e "\t-------------------------------------------------->\n"
+string_fail="FAIL"
+string_tests="Tests"
+number_of_test_case=0
+number_of_test=0
+test_case_with_bug_report=0
+test_with_bug_report=0
+step=1
+echo "Step "$step", your action:"
+echo -e "\tPlease input the abs path to the target file, or will search automaticly."
+read  tmp_path
+
+echo -e "\tInput status:"
+if [ "$tmp_path" != "" ]; then
+        target_path=$tmp_path
+        echo -e "\t\ttarget file has been reset successfully!"
+else
+        echo -e "\t\tno input,system will search the newest file as target:\n"
+	
+	tardir_1=~/acpicaq_master_keep_fresh/tests/aslts/tmp/RESULTS
+	tardir_2=~/acpica/tests/aslts/tmp/RESULTS
+	
+	let step+=1
+	cd $tardir_1
+	echo -e "Step "$step", search one dir :\n\tnow we at this dir:"
+	echo -e "\t\t\c" 
+	pwd
+	tmp_path=`mygetfile2report $tardir_1`
+	echo -e "\tget the newest file in this dir: "
+	echo -e "\t\t"$tardir_1"/"$tmp_path"\n"
+	
+	let step+=1
+	cd $tardir_2
+	echo -e "Step "$step", search another dir: \n\tnow we at this dir:"
+	echo -e "\t\t\c"
+	pwd
+	target_path=`mygetfile2report $tardir_2`
+	echo -e "\tget the newest file in this dir: "
+	echo -e "\t\t"$tardir_2"/"$target_path"\n"
+	
+	tmp_path=`find "$tardir_1"/"$tmp_path" -newer $target_path`
+	if [ "$tmp_path" != "" ];then
+		target_path=$tmp_path
+		cd $tardir_1
+	fi
+fi
+
+let step+=1
+echo -e "Step "$step", decide the target file to analysis:"
+echo -e "\tthe following file is the newest of all:\n\t\t"$target_path
+if [ ! -f $target_path ]; then
+	echo "target file not exists."
+	exit 1
+fi
+while read line
+do
+	#echo ${line:0:4}
+	if [  ${#line} -gt 5 ]; then
+		#echo ${#line}
+		if [ "${line:0:4}" = "$string_fail" ]; then
+			tmp_string=${line:11}
+			#echo ${tmp_string}
+			if [ ${tmp_string:0:1} = ":" ]; then
+				tmp_number=${tmp_string:3:3}
+				#echo $tmp_number
+				test_with_bug_report=`expr $test_with_bug_report + $tmp_number`
+			else
+				number_of_test_case=`expr $number_of_test_case + 1`
+				if [ $tmp_string -gt 0 ]; then
+					test_case_with_bug_report=`expr $test_case_with_bug_report + 1`
+				fi
+			fi
+			
+		fi
+		if [ "${line:0:5}" = "$string_tests" ]; then
+                        tmp_string=${line:11}
+                        #echo ${tmp_string}
+			tmp_number=${tmp_string:3}
+                        #echo $tmp_number
+                        number_of_test=`expr $number_of_test + $tmp_number`
+
+                        #if [ ${tmp_string:0:1} = ":" ]; then
+                        #       tmp_number=${tmp_string:3:3}
+                        #        echo $tmp_number
+                        #        test_with_bug_report=`expr $test_with_bug_report + $tmp_number`
+                        #else
+                        #        number_of_test_case=`expr $number_of_test_case + 1`
+                        #        if [ $tmp_string -gt 0 ]; then
+                        #                test_case_with_bug_report=`expr $test_case_with_bug_report + 1`
+                        #        fi
+                        #fi
+
+                fi
+	fi
+done < $target_path
+
+let step+=1
+echo -e "\n\nStep "$step", report result:\n"
+echo -e "\n\t-------------------------------------------------"
+echo -e "\t|\ttotal test case number:           "$number_of_test_case"   |"
+echo -e "\t|\ttest case number with bug report: "$test_case_with_bug_report"   |"
+echo -e "\t|\ttests number:                    "$number_of_test"   |"
+echo -e "\t|\ttest number with bug report:      "$test_with_bug_report"   |"
+echo -e "\t----------------------------------------------DOne!\n"
+
+exit 0

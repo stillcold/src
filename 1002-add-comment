@@ -1,0 +1,7 @@
+#!/bin/bash
+data=`echo "'{ \"body\": \"$2\" }'"`
+curl --user "reedwind:2918g0180h6522" \
+     --request POST\
+     --data $data\
+     https://api.github.com/repos/reedwind/lib/issues/2/comments
+

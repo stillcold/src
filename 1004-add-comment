@@ -1,0 +1,28 @@
+#!/bin/bash
+if [ $# == 0 ]; then
+    echo "$0"
+    echo -e "\tusage:\n\t\t $0 <useraccount> <repoinfo> <issueNumber> <commentBody>"
+    echo -e "\te.g.:\n\t\t $0 yourname:password otcshare/acpica 2 \"New comment\"\n"
+    exit 1
+fi
+jsonclient=curl
+userflag=user
+dataflag=data
+requestflag=request
+userinfo=$1
+requestinfo=POST
+urlinfo=https://api.github.com/repos/
+urlinfo+=$2
+urlinfo+=/issues/$3/comments
+commandstring="$jsonclient"
+commandstring+=" --"$userflag 
+commandstring+=" $userinfo" 
+commandstring+=" --"$requestflag 
+commandstring+=" $requestinfo"
+commandstring+=" --""$dataflag "
+commandstring+=`echo "'{ \"body\": \"$4\" }'"`
+commandstring+=" $urlinfo"
+#result=`$commandstring`
+echo $commandstring
+eval $commandstring
+exit 0

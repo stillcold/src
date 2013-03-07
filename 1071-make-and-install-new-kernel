@@ -1,0 +1,45 @@
+#!/bin/bash
+# copyright: Intel Corp 2012
+# this file is designed for my own use.
+# please put the file Summary and this file into the same directory.
+# arthor: chao.guan@intel.com
+echo -e "\n\tNotice: Now you are use this shell: "$SHELL
+echo -e "\t--------------------------------------------------"
+echo -e "\t|\tFeel free to use it                      |"
+echo -e "\t|\tThe report processor now begins:         |"
+echo -e "\t-------------------------------------------------->\n"
+string_fail="FAIL"
+string_tests="Tests"
+done < $target_path
+
+
+ref:
+
+2031  sudo make localyesconfig 
+2032  sudo make bzImage
+2033  sudo make bzImage -j 8
+2034  sudo make bzImage -j 4
+2035  sudo make modules
+2036  sudo mkinitramfs 
+2037  ls
+2038  sudo mkinitramfs -o /boot/initrd.img-3.5.0-12.12.07
+2039  ll System.map 
+2040  sudo cp System.map /boot/System.map-3.5.0-12.12.07
+2041  cp arch/x86/boot/bzImage /boot/vmlinuz-3.5.0-12.12.07
+2042  sudo cp arch/x86/boot/bzImage /boot/vmlinuz-3.5.0-12.12.07
+2043  sudo cp .config /boot/config-3.5.0-12.12.07
+2044  sudo make modules_install 
+2045  history
+
+
+
+let step+=1
+echo -e "\n\nStep "$step", report result:\n"
+echo -e "\n\t-------------------------------------------------"
+echo -e "\t|\ttotal test case number:           "$number_of_test_case"   |"
+echo -e "\t|\ttest case number with bug report: "$test_case_with_bug_report"   |"
+echo -e "\t|\ttests number:                    "$number_of_test"   |"
+echo -e "\t|\ttest number with bug report:      "$test_with_bug_report"   |"
+echo -e "\t----------------------------------------------DOne!\n"
+
+exit 0

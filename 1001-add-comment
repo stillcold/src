@@ -1,0 +1,8 @@
+#!/bin/bash
+curl --user "reedwind:2918g0180h6522" \
+     --request POST\
+     --data '{
+	 "body":"A new comment."
+     }'\
+     https://api.github.com/repos/reedwind/lib/issues/2/comments
+

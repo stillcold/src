@@ -1,0 +1,26 @@
+#!/bin/bash
+if [ $# == 0 ]; then
+    echo "$0"
+    echo -e "\tusage:\n\t\t $0 <useraccount> <issueNumber> <commentBody>"
+    echo -e "\te.g.:\n\t\t $0 yourname:password 2 \"New comment\"\n"
+    exit 1
+fi
+jsonclient=curl
+userflag=user
+dataflag=data
+requestflag=request
+userinfo=$1
+requestinfo=POST
+urlinfo=https://api.github.com/repos/reedwind/lib/issues/$2/comments
+commandstring="$jsonclient"
+commandstring+=" --"$userflag 
+commandstring+=" $userinfo" 
+commandstring+=" --"$requestflag 
+commandstring+=" $requestinfo"
+commandstring+=" --""$dataflag "
+commandstring+=`echo "'{ \"body\": \"$3\" }'"`
+commandstring+=" $urlinfo"
+#result=`$commandstring`
+echo $commandstring
+eval $commandstring
+exit 0

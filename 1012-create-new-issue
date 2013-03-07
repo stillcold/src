@@ -1,0 +1,39 @@
+#!/bin/bash
+# this script can work on my PC.
+if [ $# == 0 ]; then
+    echo "$0"
+    echo -e "\tusage:\n\t\t $0 <userinfo> <title> <body> <assignee> <milestone> <label1> [lable2]"
+    echo -e "\te.g.:\n\t\t $0 yourname:password \"new bug\" \"bug is: bla bla bla\" \"ChaoGuan\" 0 \"bug\" \"invalid\"\n"
+    exit 1
+fi
+jsonclient=curl
+userflag=user
+dataflag=data
+requestflag=request
+userinfo=$1
+requestinfo=POST
+
+urlinfo=https://api.github.com/repos/reedwind/lib/issues
+
+commandstring="$jsonclient"
+commandstring+=" --"$userflag
+commandstring+=" $userinfo"
+commandstring+=" --"$requestflag
+commandstring+=" $requestinfo"
+commandstring+=" --""$dataflag "
+
+#if we have only 6 args, we only have 1 labels.
+if [ $# == 6 ]; then
+    commandstring+=`echo "'{ \"title\": \"$2\", \"body\": \"$3\", \
+	           \"assignee\": \"$4\", \"labels\":[\"$6\"]}'"`
+fi
+#if we have 7 args, we have 2 labels.
+if [ $# == 7 ]; then
+    commandstring+=`echo "'{ \"title\": \"$2\", \"body\": \"$3\", \
+		   \"assignee\": \"$4\", \"labels\":[\"$6\",\"$7\"]}'"`
+fi
+commandstring+=" $urlinfo"
+#result=`$commandstring`
+echo $commandstring
+eval $commandstring
+exit 0
