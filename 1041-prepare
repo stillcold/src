@@ -1,3 +1,0 @@
-#!/bin/bash
-echo "SOURCECODE =" `ls| grep $1` > Makefile.config1
-exit 0

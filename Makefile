@@ -4,7 +4,7 @@
 #	gcc -o main.o -c 0110-fprintf.c
 #clean : rm exec main.o
 #
-include Makefile.config1
-include Makefile.config2
-include Makefile.common
-include Makefile.rules
+include ./c/Makefile.config1
+include ./c/Makefile.config2
+include ./c/Makefile.common
+include ./c/Makefile.rules

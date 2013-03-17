@@ -1,0 +1,21 @@
+#!/bin/bash
+num=`ls | grep "Makefile" | wc -l`
+if [ x$num == x1 ]; then
+	valid=`ls "./c/" | grep $1`
+	if [ x$valid == x ]; then
+		echo "invalid directory to use this command!"
+		exit -1
+	fi
+	echo -e "SOURCECODE =\c" >  ./c/Makefile.config1
+    echo "./c/"$valid >> ./c/Makefile.config1
+	exit 0
+fi
+
+valid=`ls| grep $1`
+	if [ x$valid == x ]; then
+		echo "invalid directory to use this command!"
+		exit -1
+	fi
+echo -e "SOURCECODE =\c" > ./Makefile.config1
+echo "./c/"$valid >> ./Makefile.config1
+exit 0
