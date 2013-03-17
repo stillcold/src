@@ -1,4 +1,4 @@
 clean :
-	rm $(BINDIR)/$(PROGS) $(BINDIR)/$(COMPILEOBJ)
+	rm $(BINDIR)/$(PROGS) $(BINDIR)/$(COMPILEOBJ) $(BINDIR)/$(FINALPROCNAME)
 install :
 	install -D $(BINDIR)/$(PROGS) $(BINDIR)/$(FINALPROCNAME)
