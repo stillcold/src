@@ -1,4 +1,4 @@
-BINDIR = ../bin
+BINDIR = ../../bin
 COMPILEOBJ = obj.o
 FINALPROCNAME = magic
 PROGS = proc.exe

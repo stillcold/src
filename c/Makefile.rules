@@ -1,3 +1,4 @@
+.PHONY : clean install
 clean :
 	rm $(BINDIR)/$(PROGS) $(BINDIR)/$(COMPILEOBJ) $(BINDIR)/$(FINALPROCNAME)
 install :
