@@ -7,7 +7,7 @@ if [ x$num == x1 ]; then
 		exit -1
 	fi
 	echo -e "SOURCECODE =\c" >  ./c/Makefile.config1
-    echo "./c/"$valid >> ./c/Makefile.config1
+    echo "./"$valid >> ./c/Makefile.config1
 	exit 0
 fi
 
@@ -17,5 +17,5 @@ valid=`ls| grep $1`
 		exit -1
 	fi
 echo -e "SOURCECODE =\c" > ./Makefile.config1
-echo "./c/"$valid >> ./Makefile.config1
+echo "./"$valid >> ./Makefile.config1
 exit 0
