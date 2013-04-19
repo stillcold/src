@@ -37,8 +37,9 @@ int main(void)
             (int)sizeof(str5));
 
     /*
-     * free is somehow can't work.
+     * free must be used after a malloc.
      */
+    delete(free);
     /*free(str5);*/
     str5 = (char *)malloc(12);
 
