@@ -1,19 +1,80 @@
 #include <stdio.h>
 #include <malloc.h>
 
-typedef struct list{
-    List *next;
-    int node;
-} List;
+typedef struct Node{
+    struct Node *next;
+    int element;
+} Node;
+
+Node* insertElement(Node *head, int value);
 
 int main(void)
 {
-    List l;
-    l.node = 1;
+    Node *head;
+    Node *p;
+    int i, value;
+    int len = 5;
 
-    l.next = (List *) malloc(sizeof(List));
-    l.next.node =2;
+    head = NULL;   
+    p = head;
+    for(i = 0; i < len; i++)
+    {
+        scanf("%d", &value);
+        head = insertElement(head, value);
+    }
+    printf("Here\n");
+    p = head;
+    if(head == NULL)
+        printf("Bad\n");
 
-    printf("%d %d\n",l.node, l.next.node);
+    while( p!= NULL)
+    {
+        printf("%d\n", p->element);
+        p = p->next;
+    }
     return 0;
+}
+
+Node* insertElement(Node *head, int value)
+{
+    Node *q;
+    Node *p;
+
+    if (head == NULL)
+    {
+        printf("get %d, will go.\n", value);
+        head = (Node *) malloc(sizeof(Node));
+        head->next = NULL;
+        head->element = value;
+        return head;
+    }
+
+    p = q = head;
+
+    while(p != NULL)
+    {
+        printf("moving ...\n");
+        if (value > p->element)
+        {
+            q = p;
+            p = p->next;
+        }else{
+            break;
+        }
+    }
+
+    if (q == head)
+    {
+        p = (Node *) malloc(sizeof(Node));
+        p->element = value;
+        p->next = head;
+        return p;
+    }
+
+    p = (Node *) malloc(sizeof(Node));
+    p->next = q->next;
+    p->element = value;
+    q->next = p;
+
+    return head;
 }
