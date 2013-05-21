@@ -2,8 +2,11 @@ BINDIR = ../../bin
 COMPILEOBJ = obj.o
 FINALPROCNAME = magic
 PROGS = proc.exe
+INCLUDEDIR = ./include/
 
 CC = gcc -g
+
+CFLAGS = -I$(INCLUDEDIR)
 
 CWARNINGFLAGS = \
 	-ansi \
