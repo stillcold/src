@@ -1,0 +1,30 @@
+#!/bin/bash
+
+logfile=$1
+
+cd $ACPICAHOME/source/
+
+if [ ! -f $logfile ]; then
+    touch $logfile
+else
+    echo "" > $logfile
+fi
+
+cd $ACPICAHOME/generate/unix/acpiexec/obj/
+
+#
+# cut is a little like token in java, 
+#       -d /  ->  / will be a token
+#       -f 2  ->  will use the second field as result
+#       eg.
+#         org="name1/name2"
+#         echo $org | cut -d / -f 1  ->  name1;
+#
+
+for o_files in `find . -name "*.o" | cut -d .  -f 2 | cut -d / -f 2`
+do
+    cd $ACPICAHOME/source/
+    echo ${o_files}
+    echo -n `find . -name ${o_files}.c ` >> $logfile
+    echo -n " " >> $logfile
+done
