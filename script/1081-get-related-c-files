@@ -1,0 +1,39 @@
+#!/bin/bash
+#$0 acpicahome toolname
+related_files=$2"_related_c_files.txt"
+
+#step one: make sure output file exists.
+
+cd $1/source/
+
+if [ ! -f $related_files ]; then
+    touch $related_files
+else
+    echo "" > $related_files
+fi
+
+#step two: find out all c files used by that tool.
+
+cd $1/generate/unix/$2/obj/
+
+#
+# cut is a little like token in java, 
+#       -d /  ->  / will be a token
+#       -f 2  ->  will use the second field as result
+#       eg.
+#         org="name1/name2"
+#         echo $org | cut -d / -f 1  ->  name1;
+#
+
+for o_files in `find . -name "*.o" | cut -d .  -f 2 | cut -d / -f 2`
+do
+    cd $1/source/
+    echo ${o_files}
+    echo -n `find . -name ${o_files}.c ` >> $related_files
+    echo -n " " >> $related_files
+done
+
+#step three: use cflow to get the result.
+
+commandline= "cflow" `cat $related_files`
+echo $commandline
