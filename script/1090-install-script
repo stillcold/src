@@ -1,0 +1,5 @@
+#!/bin/bash
+BINDIR="../../bin"
+FINALPROCNAME="magic"
+install -D $1 $BINDIR/$FINALPROCNAME
+
