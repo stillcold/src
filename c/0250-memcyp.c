@@ -24,7 +24,7 @@ int main(void)
 
     /* This works for me */
 
-    printf("%d\n", sizeof (u8));
+    printf("%lu\n", sizeof (u8));
     memcpy (&c1, &a, 2);
     printf("%u %u\n", c1.a, c1.b);
     memcpy (&c1, &b, 2);
