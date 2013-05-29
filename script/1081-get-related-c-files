@@ -1,6 +1,6 @@
 #!/bin/bash
 #config:
-detect_ercursion_tool="cflow"
+detect_recursion_tool="cflow"
 
 #usage:
 #       $0 acpicahome toolname
@@ -39,7 +39,7 @@ done
 
 #step three: use cflow to get the result.
 
-commandline="$detect_ercursion_tool"
+commandline="$detect_recursion_tool"
 commandline+=" `cat $related_files`"
 #echo "$commandline"
 eval $commandline > detect_recursion_result_$2.txt
