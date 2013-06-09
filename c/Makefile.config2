@@ -1,5 +1,8 @@
+SOURCECODE += ./data_structure/RB_Tree.c
+
 BINDIR = ../../bin
-COMPILEOBJ = obj.o
+OBJEXT =.o
+COMPILEOBJ = $(SOURCECODE:.c=$(OBJEXT))
 FINALPROCNAME = magic
 PROGS = proc.exe
 INCLUDEDIR = ./include/

@@ -1,8 +1,7 @@
-#include "mytypes.h"
-
 #ifndef _MYSTRUCTRURE_H
 #define _MYSTRUCTRURE_H
-#endif
+
+#include "mytypes.h"
 
 typedef u32 elementtype;
 
@@ -33,3 +32,47 @@ node* initiateList(void);
 
 /* Build a sorted list */
 boolean insertElement(node *head, elementtype element);
+
+
+/**************************************************************************
+ *
+ * A Red-Black-Tree structure will be implemented here.
+ *
+ *************************************************************************/
+
+typedef enum red_black_color
+{
+    red,
+    black
+} RB_COLOR;
+
+typedef struct red_black_node
+{
+    void* element;                      /* Anything could be its element */
+    RB_COLOR color;
+    struct red_black_node *left;         /* Point to left child */
+    struct red_black_node *right;        /* Point to right child */
+    struct red_black_node *parent;       /* Point to parent */
+} RB_NODE;
+
+/**************************************************************************
+ *
+ * NOT sure if this will make the code UNreadble.
+ *
+ *************************************************************************/
+
+typedef boolean (COMPARE_FUNCTION) (void *element_a, void *element_b);
+
+typedef struct red_black_tree
+{
+    RB_NODE *root;
+    COMPARE_FUNCTION *compare;
+} RB_TREE;
+
+RB_NODE* rb_node_create (void *element, RB_COLOR color);
+
+RB_TREE* rb_tree_initialize (COMPARE_FUNCTION *compare);
+
+void rb_tree_insert (RB_TREE *tree, void* element);
+
+#endif
