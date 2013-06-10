@@ -1,5 +1,5 @@
 .PHONY : clean install
 clean :
-	rm $(BINDIR)/$(PROGS) $(BINDIR)/$(COMPILEOBJ) $(BINDIR)/$(FINALPROCNAME)
+	rm $(BINDIR)/$(PROGS) $(COMPILEOBJ) $(BINDIR)/$(FINALPROCNAME)
 install :
 	install -D $(BINDIR)/$(PROGS) $(BINDIR)/$(FINALPROCNAME)

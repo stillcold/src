@@ -19,7 +19,7 @@
 CSOURCEDIR = ./c/
 all: FORCE
 	cd ${CSOURCEDIR};\
-	make
+	make || exit "$$?"
 clean: FORCE
 	cd ${CSOURCEDIR};\
 	make clean
