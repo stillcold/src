@@ -254,16 +254,12 @@ int main(void)
     int c = 7;
     int d = 8;
     int e = 4;
-    int f = 9;
-    int g = 10;
 
     rb_tree_insert (tree, &a);
     rb_tree_insert (tree, &b);
     rb_tree_insert (tree, &c);
     rb_tree_insert (tree, &d);
     rb_tree_insert (tree, &e);
-    rb_tree_insert (tree, &f);
-    rb_tree_insert (tree, &g);
     print_tree (tree);
 
     return 1;
