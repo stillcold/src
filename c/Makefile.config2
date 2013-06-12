@@ -10,6 +10,10 @@ COMPILEOBJ = $(SOURCECODE:.c=$(OBJEXT))
 FINALPROCNAME = magic
 PROGS = proc.exe
 INCLUDEDIR = ./include/
+#
+# This flag is for pow from math.h
+#
+LDFLAG = -lm
 
 CC = gcc -g
 

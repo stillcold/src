@@ -2,7 +2,7 @@
 all : ${PROGS}
 
 ${PROGS} : ${COMPILEOBJ}
-	${CC}  -o $(BINDIR)/$(PROGS) $(COMPILEOBJ)
+	${CC}  -o $(BINDIR)/$(PROGS) $(COMPILEOBJ) $(LDFLAG)
 
 ${COMPILEOBJ} : %.o: %.c
 	${CC} -c ${CFLAGS} $(CWARNINGFLAGS) -o $@ $<
