@@ -134,6 +134,10 @@ static void rb_tree_insert_fixup (RB_TREE *tree, RB_NODE *node)
                 /* Used for while, fix up will continue */
 
                 node = node->parent->parent;
+                if (!node->parent)
+                {
+                    break;
+                }
             }
             else if (node == node->parent->right) /* Case 2 */
             {
