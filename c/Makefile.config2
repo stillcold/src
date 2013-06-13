@@ -2,7 +2,8 @@
 # Just add source files to SOURCECODE 
 # then every thing will be finished automaticlly.
 #
-SOURCECODE += ./data_structure/RB_Tree.c
+SOURCECODE += ./data_structure/RB_Tree.c \
+              ./data_structure/Linked_list.c
 
 BINDIR = ../../bin
 OBJEXT =.o

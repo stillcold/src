@@ -3,40 +3,40 @@
 
 #include "mytypes.h"
 
-typedef u32 elementtype;
+/* A RB_TREE can has no more than MAX_NUM nodes */
+#define MAX_NUM             1000
+
+/* Global variables */
+
+extern u32                  Gbl_element [MAX_NUM];
+extern boolean              Gbl_marked;
+extern u8                   Gbl_level [MAX_NUM];
+extern u32                  Gbl_index;
+extern u8                   Gbl_color [MAX_NUM];
+extern u32                  Gbl_max_level;
+extern u32                  Gbl_max_width;
+
+typedef u32                 elementtype;
 
 /* Node of a linked-list */
 
 typedef struct node
 {
-    u32 element;
-    struct node *next;
-} node;
+    u32                     element;
+    struct node             *next;
+} LIST_NODE;
 
-/*
- * Implementation of the funcstions below can be found in 0260
- *
- * Watch out this wrong usage:
- *
- *     boolean initiateList(node *head){node *new_node = ...; head = new_node}
- *
- *     then we invoke it like this:
- *
- *         initiateList(head) 
- *
- *     it can't initiate the head, because the head is in fact not changed by
- *     the function. Most function can only chang *head, can't change head 
- *     itself. But initiateList(head) try to change head itself, it can't work.
- */
-node* initiateList(void);
 
-/* Build a sorted list */
-boolean insertElement(node *head, elementtype element);
+LIST_NODE* initiateList(void);
+
+boolean insertElement(LIST_NODE *head, elementtype element);
+
+boolean printList(LIST_NODE *head);
 
 
 /**************************************************************************
  *
- * A Red-Black-Tree structure will be implemented here.
+ * A Red-Black-Tree structure will be implemented below.
  *
  *************************************************************************/
 
@@ -48,18 +48,19 @@ typedef enum red_black_color
 
 typedef struct red_black_node
 {
-    void* element;                      /* Anything could be its element */
-    RB_COLOR color;
-    struct red_black_node *left;         /* Point to left child */
-    struct red_black_node *right;        /* Point to right child */
-    struct red_black_node *parent;       /* Point to parent */
+    void*                   element;    /* Anything could be its element */
+    RB_COLOR                color;
+    struct red_black_node   *left;      /* Point to left child */
+    struct red_black_node   *right;     /* Point to right child */
+    struct red_black_node   *parent;    /* Point to parent */
 } RB_NODE;
 
-/**************************************************************************
+
+/*
  *
  * NOT sure if this will make the code UNreadble.
  *
- *************************************************************************/
+ */
 
 typedef boolean (COMPARE_FUNCTION) (void *element_a, void *element_b);
 
@@ -74,5 +75,18 @@ RB_NODE* rb_node_create (void *element, RB_COLOR color);
 RB_TREE* rb_tree_initialize (COMPARE_FUNCTION *compare);
 
 void rb_tree_insert (RB_TREE *tree, void* element);
+
+void left_rotate (RB_TREE *tree, RB_NODE *node);
+
+void right_rotate (RB_TREE *tree, RB_NODE *node);
+
+void print_tree(RB_TREE *tree);
+
+/*
+ *
+ * One have to implement this function to use all the intefaces.
+ *
+ */
+boolean compare_element (void *element_a, void *element_b);
 
 #endif
