@@ -1,7 +1,8 @@
 /* 
  * File:   CSendMail.cpp
  * 此代码系从网上以积分下载的方式下载到本代码，作者demonelf1@163.com，请按原作者意愿使用本代码
- * 一切侵权行为与本人无关 
+ * 一切侵权行为与本人无关
+ * This code works OK with check-send-mail.cpp
  * Author: root<demonelf1@163.com>
  *
  * Created on January 16, 2012, 6:14 PM
