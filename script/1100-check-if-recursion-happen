@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#TARGET_FILE= $1
+while read -r line
+do
+        #echo ${line:0:4}
+        echo "${line:0:4}"
+        if [  ${#line} -gt 5 ]; then
+                #echo ${#line}
+                if [ "${line:0:4}" = "$string_fail" ]; then
+                        tmp_string=${line:11}
+                        #echo ${tmp_string}
+                        if [ ${tmp_string:0:1} = ":" ]; then
+                                tmp_number=${tmp_string:3:3}
+                                #echo $tmp_number
+                        else
+                                number_of_test_case=`expr $number_of_test_case + 1`
+                                if [ $tmp_string -gt 0 ]; then
+                                        test_case_with_bug_report=`expr $test_case_with_bug_report + 1`
+                                fi
+                        fi
+
+                fi
+        fi
+done < $1
