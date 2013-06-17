@@ -2,10 +2,11 @@
 
 #TARGET_FILE= $1
 KEYWORLD="recursive"
+LASTLINT=""
 while read -r line
 do
-        echo "${line}" | grep -q "$KEYWORLD"
-        if [  $? -eq 0 ]; then
+        if [  "${line}"x != "${LASTLINT}"x ]; then
                 echo "${line}"
+                LASTLINT="${line}"
         fi
 done < $1
