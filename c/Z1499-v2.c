@@ -63,6 +63,7 @@ int main(void)
         memset(dp,0,sizeof(dp));
         dp[1]=1;
 
+        //dp, from beginning to end, dp[last] is what really count.
         for(int i=2;i<n;++i)
         {
             dp[i]=i;
@@ -79,6 +80,8 @@ int main(void)
         int last=n-dp[n-1];
         dp[last]=dp[n-1];
 
+
+        //dp, from end to head, find answer.
         for(int i=last-1;i>0;--i)
         {
             dp[i]=-1;
