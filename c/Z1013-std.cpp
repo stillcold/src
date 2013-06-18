@@ -1,154 +1,87 @@
-/*
- * This code is not very good, judge by the head files, we can see both
- * stdio and iostream.
- */
-#include <stdio.h>
-#include <iostream>
-#include <string.h>
-
+#include<cstring>
+#include<iostream>
 using namespace std;
 
-#define ITEM_CNT    3
-#define MAX_AMOUNT  500
+const int MAX_CAP = 501;
+const int MAX_CAR = 101;
 
-int w[ITEM_CNT];
-int s[ITEM_CNT];
-int d[ITEM_CNT];
-
-int c[ITEM_CNT];
-int nDefenseOfSet;
-
-int car[100][2];
-int dp[2][MAX_AMOUNT + 1][MAX_AMOUNT + 1];
-
-int CalcLargestDefense(int nCarCnt)
+int main()
 {
-    int index = 0;
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "rt", stdin);
+    freopen("output.txt", "wt+", stdout);
+#endif
 
-    memset(dp, -1, 2 * (MAX_AMOUNT + 1) * (MAX_AMOUNT + 1) * sizeof(int));
-
-    for (int nCarIndex = 0; nCarIndex < nCarCnt; nCarIndex++)
+    int carNo;
+    int m[2][MAX_CAP][MAX_CAP];
+    int wn[MAX_CAR], ws[MAX_CAR];
+    int helm[3], armor[3], boot[3];
+    int c1, c2, c3, d4;
+    int index = 1;
+    while(cin >> carNo)
     {
-        for (int p = 0; p <= MAX_AMOUNT; p++)
+        if(!carNo)
         {
-            if (p * w[0] > car[nCarIndex][0] || p * s[0] > car[nCarIndex][1])
+            break;
+        }
+        cin >> helm[0] >> helm[1] >> helm[2];
+        cin >> armor[0] >> armor[1] >> armor[2];
+        cin >> boot[0] >> boot[1] >> boot[2];
+        cin >> c1 >> c2 >> c3 >> d4;
+
+        for(int i=0;i<carNo;i++)
+        {
+            cin >> wn[i] >> ws[i];
+        }
+
+        int maxHelm = 0, maxArmor = 0;
+        int prev = 0, now =1;
+        memset(m, 0, sizeof(m));
+        for(int loop =0;loop<carNo;loop++)
+        {
+            memset(m[now], -1, sizeof(m[now]));
+            int hemlx = min(wn[loop]/helm[0], ws[loop]/helm[1]);
+            for(int i=0; i<=hemlx;i++)
             {
-                break;
-            }
-
-            for (int q = 0; q <= MAX_AMOUNT; q++)
-            {
-                int nWeightLeft = car[nCarIndex][0] - p * w[0] - q * w[1];
-                int nSizeLeft = car[nCarIndex][1] - p * s[0] - q * s[1];
-
-                if (nWeightLeft < 0 || nSizeLeft < 0)
+                int armorx = min( (wn[loop]-helm[0]*i)/armor[0], (ws[loop] - helm[1]*i)/armor[1]);
+                for(int j=0;j<=armorx;j++)
                 {
-                    break;
-                }
-
-                int m = nWeightLeft / w[2];
-                if ( m > nSizeLeft / s[2])
-                {
-                    m = nSizeLeft / s[2];
-                }
-
-                if (nCarIndex == 0)
-                {
-                    dp[1 - index][p][q] = m;
-                }
-                else
-                {
-                    for (int x = p; x <= MAX_AMOUNT; x++)
+                    int bootx = min( (wn[loop] - helm[0]*i - armor[0]*j)/boot[0], (ws[loop]-helm[1]*i-armor[1]*j)/boot[1]);
+                    for(int a=0;a<=maxHelm;a++)
                     {
-                        for (int y = q; y <= MAX_AMOUNT; y++)
+                        for(int b=0;b<=maxArmor;b++)
                         {
-                            if (dp[index][x - p][y - q] >= 0)
+                            if(m[prev][a][b] != -1)
                             {
-                                if (m + dp[index][x- p][y - q] > dp[1 - index][x][y])
-                                {
-                                    dp[1 - index][x][y] = m + dp[index][x - p][y - q];
-                                }
+                                m[now][a+i][b+j] = max(m[now][a+i][b+j], m[prev][a][b] + bootx);
                             }
                         }
                     }
                 }
             }
+            maxHelm += hemlx;
+            maxArmor += min(wn[loop]/armor[0], ws[loop]/armor[1]);
+            swap(prev, now);
         }
 
-        index = 1 - index;
-    }
-
-    int ret = 0;
-
-    for (int i = 0; i <= MAX_AMOUNT; i++)
-    {
-        for (int j = 0; j <= MAX_AMOUNT; j++)
+        int ans = 0;
+        for(int i=0;i<=maxHelm;i++)
         {
-            int k = dp[index][i][j];
-
-            if (k >= 0)
+            for(int j=0;j<=maxArmor;j++)
             {
-                //printf("(%d,%d)=%d\n", i, j, k);
-
-                int t1 = i / c[0];
-                int t2 = j / c[1];
-                int t3 = k / c[2];
-
-                int min = (t1 < t2) ? t1 : t2;
-                min = (t3 < min) ? t3 : min;
-
-                int temp = nDefenseOfSet * min;
-                temp += (i - min * c[0]) * d[0] + (j - min * c[1]) * d[1] + (k - min * c[2]) * d[2];
-                if (temp > ret)
+                if(m[prev][i][j] < 0)
                 {
-                    ret = temp;
+                    continue;
                 }
+                int sets = min(min(i/c1, j/c2), m[prev][i][j]/c3);
+                ans = max(ans, sets*d4 + helm[2]*(i-sets*c1) + armor[2]*(j-sets*c2) + boot[2]*(m[prev][i][j] - sets*c3));
             }
         }
-    }
-    
-    return ret;
-}
-int main()
-{
-    int nCaseCnt = 1;
-    while (1)
-    {
-        int n;
 
-        cin >> n;
-        cin.get();
-
-        if (n == 0)
-        {
-            break;
-        }
-
-        for (int i = 0; i < ITEM_CNT; i++)
-        {
-            cin >> w[i] >> s[i] >> d[i];
-        }
-
-        for (int i = 0; i < ITEM_CNT; i++)
-        {
-            cin >> c[i];
-        }
-        cin >> nDefenseOfSet;
-
-        for (int i = 0; i < n; i++)
-        {
-            cin >> car[i][0] >> car[i][1];
-        }
-
-        int nResult = CalcLargestDefense(n);
-
-        if (nCaseCnt > 1)
+        if(index >1)
         {
             cout << endl;
         }
-        cout << "Case " << nCaseCnt++ << ": " << nResult << endl;
+        cout << "Case " << index++ << ": "<< ans << endl;
     }
-
-    return 0;
 }
-
