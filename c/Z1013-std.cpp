@@ -37,15 +37,29 @@ int main()
         int maxHelm = 0, maxArmor = 0;
         int prev = 0, now =1;
         memset(m, 0, sizeof(m));
+        /*
+         * Take every car into consideration to get the GLOBAL max value,
+         * and store that value to m[][][].
+         */
         for(int loop =0;loop<carNo;loop++)
         {
+            /*
+             * Because bootx changes every time, m[][][] changes from the
+             * very beginning to end in very loop. After every loop, the
+             * value in m[][][] just means the GLOBAL dp result after
+             * another new car added to the car sequence.
+             */
             memset(m[now], -1, sizeof(m[now]));
+            /*
+             * Both i and j are in fact offset here.
+             */
             int hemlx = min(wn[loop]/helm[0], ws[loop]/helm[1]);
             for(int i=0; i<=hemlx;i++)
             {
                 int armorx = min( (wn[loop]-helm[0]*i)/armor[0], (ws[loop] - helm[1]*i)/armor[1]);
                 for(int j=0;j<=armorx;j++)
                 {
+                    /* a and b are in fact the base index */
                     int bootx = min( (wn[loop] - helm[0]*i - armor[0]*j)/boot[0], (ws[loop]-helm[1]*i-armor[1]*j)/boot[1]);
                     for(int a=0;a<=maxHelm;a++)
                     {
@@ -53,6 +67,7 @@ int main()
                         {
                             if(m[prev][a][b] != -1)
                             {
+                                /* All works are for this statement */
                                 m[now][a+i][b+j] = max(m[now][a+i][b+j], m[prev][a][b] + bootx);
                             }
                         }
@@ -61,6 +76,12 @@ int main()
             }
             maxHelm += hemlx;
             maxArmor += min(wn[loop]/armor[0], ws[loop]/armor[1]);
+            /*
+             * I have seen more than one code about 1013, this one here is
+             * better than the others because this SWAP behavior. It use a
+             * very simple SWAP while others use a memcpy to copy old value
+             * in old m[][][] to new one. Should be much better.
+             */
             swap(prev, now);
         }
 
