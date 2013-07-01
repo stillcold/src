@@ -1,5 +1,6 @@
 c/Makefile.config1
 c/*.o
 c/data_structure/*.o
+c/utilities/*.o
 outgoing/.*
 outgoing
