@@ -6,7 +6,7 @@
 
 u32                         next[MAX_PATTERN_LENGTH];
 
-void get_next (char[] pattern)
+void get_next (char pattern[])
 {
     u32                     length;
     u32                     k;
@@ -30,7 +30,7 @@ void get_next (char[] pattern)
     }
 }
 
-s32 KMP_matcher (char[] text, char[] pattern)
+s32 KMP_matcher (char text[], char pattern[])
 {
     u32                     m;
     u32                     n;
