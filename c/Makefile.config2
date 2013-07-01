@@ -3,6 +3,7 @@
 # then every thing will be finished automaticlly.
 #
 SOURCECODE += ./data_structure/RB_Tree.c \
+              ./utilities/gcd.c \
               ./data_structure/Linked_list.c
 
 BINDIR = ../../bin
