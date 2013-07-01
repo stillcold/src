@@ -2,3 +2,4 @@ c/Makefile.config1
 c/*.o
 c/data_structure/*.o
 outgoing/.*
+outgoing
