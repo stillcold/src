@@ -2,5 +2,6 @@ c/Makefile.config1
 c/*.o
 c/data_structure/*.o
 c/utilities/*.o
-outgoing/.*
+c/upper_layer/*.o
+outgoing/*
 outgoing
