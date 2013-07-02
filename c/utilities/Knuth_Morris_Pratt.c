@@ -2,31 +2,34 @@
 #include "mytypes.h"
 #include <string.h>
 
-#define MAX_PATTERN_LENGTH  100
+s32                         next[MAX_PATTERN_LENGTH];
 
-u32                         next[MAX_PATTERN_LENGTH];
+void get_next(char pattern[])
 
-void get_next (char pattern[])
 {
-    u32                     length;
-    u32                     k;
-    u32                     q;
+    int                     k;
+    int                     j;
 
-    k = 0;
-    length = strlen (pattern);
-    for (q = 1; q < length -1 ; q++)
+    next[0]=   -1;
+
+    k=-1,j=0;
+    while(pattern[j]  !=  '\0')
     {
-        while ((k) && (pattern[k+1] != pattern[q])) 
-        {
-             k = next[k];
-        }
 
-        if (pattern[k+1] == pattern[q])
-        {
-            k++;
-        }
+        if(k!=  -1  &&  pattern[k]!=  pattern[j] )
 
-        next[q] = k;
+            k=next[k];
+
+        ++j;++k;
+
+        if(pattern[k]==  pattern[j])
+
+            next[j]=next[k];
+
+        else
+
+            next[j]=k;
+
     }
 }
 

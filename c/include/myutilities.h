@@ -3,6 +3,10 @@
 
 #include "mytypes.h"
 
+#define MAX_PATTERN_LENGTH  100
+
+extern s32                  next[MAX_PATTERN_LENGTH];
+
 /*
  * Greatest common divisor
  */
