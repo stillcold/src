@@ -4,32 +4,27 @@
 
 s32                         next[MAX_PATTERN_LENGTH];
 
+/*
+ * This code has been verified, it is OK.
+ */
 void get_next(char pattern[])
-
 {
     int                     k;
     int                     j;
 
-    next[0]=   -1;
-
-    k=-1,j=0;
-    while(pattern[j]  !=  '\0')
+    next[0] = -1;
+    k = -1;
+    j = 0;
+    while (pattern[j] != '\0')
     {
-
-        if(k!=  -1  &&  pattern[k]!=  pattern[j] )
-
+        if (k!= -1 && pattern[k] != pattern[j])
             k=next[k];
-
-        ++j;++k;
-
-        if(pattern[k]==  pattern[j])
-
-            next[j]=next[k];
-
+        ++j;
+        ++k;
+        if (pattern[k] == pattern[j])
+            next[j] = next[k];
         else
-
-            next[j]=k;
-
+            next[j] = k;
     }
 }
 
