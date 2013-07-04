@@ -5,3 +5,4 @@ c/utilities/*.o
 c/upper_layer/*.o
 outgoing/*
 outgoing
+*a.out
