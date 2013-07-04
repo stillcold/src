@@ -1,31 +1,29 @@
 #include "stdio.h"
 #include "stdarg.h"
 
-void fun1(int a, ...){
+typedef struct node{
+    int                     a;
+    char                    b;
+} NODE;
+
+void fun1 (NODE a, ...)
+{
     va_list ptr;
-    va_list pt2;
-    va_list pt3;
-    *pt3 = *ptr;
-    int next = a;
-    va_start(ptr, a);
-    va_copy(pt2, ptr);
+    int next;
+
+    va_start (ptr, a);
     do {
-	printf("%d\n",next);
-	next = va_arg(ptr,int);
-    }while(next!=-1);
+        next = va_arg (ptr, int);
+        printf ("%d\n",next);
+    }
+    while (next!=-1 && next);
+
     va_end(ptr);
-    /*do {
-	printf("%d\n",next);
-	next = va_arg(pt2,int);
-    }while(next!=-1);
-    va_end(pt2);*/
-    do {
-	printf("%d\n",next);
-	next = va_arg(pt3,int);
-    }while(next!=-1);
 }
 
 int main(){
-    fun1(1,2,3, -1);
+    NODE a = {.a = 1, .b ='a'};
+    fun1(a,1,2,3, -1);
+    fun1(a);
     return 0;
 }
