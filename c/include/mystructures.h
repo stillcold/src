@@ -66,8 +66,8 @@ typedef boolean (COMPARE_FUNCTION) (void *element_a, void *element_b);
 
 typedef struct red_black_tree
 {
-    RB_NODE *root;
-    COMPARE_FUNCTION *compare;
+    RB_NODE                 *root;
+    COMPARE_FUNCTION        *compare;
 } RB_TREE;
 
 RB_NODE* rb_node_create (void *element, RB_COLOR color);
