@@ -5,6 +5,20 @@
 
 #define MAX_PATTERN_LENGTH  100
 
+typedef boolean (COMPARE_FUNCTION) (void *target, int offset_1, int offset_2);
+
+typedef void (SWAP_FUNCTION) (void *target, int offset_1, int offset_2);
+
+/**************************************************************************
+ *
+ * Note:
+ *      This SWAP can't swap two same variables' value
+ *
+ * For example: SWAP(a,a)
+ *      ===result===>
+ *      a=0
+ *
+ *************************************************************************/
 #define SWAP(a,b)           {\
     a ^= b;\
     b ^= a;\
@@ -58,6 +72,12 @@ KMP_matcher (
  *
  *************************************************************************/
 
-boolean sort(int* , int, ...);
+boolean
+sort (
+    COMPARE_FUNCTION*       compare_function,
+    SWAP_FUNCTION*          swap_function,
+    void*                   target,
+    int                     length
+);
 
 #endif

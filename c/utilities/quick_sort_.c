@@ -9,7 +9,13 @@
 #include "myutilities.h"
 #include <stdio.h>
 
-static boolean qsort(int*, int , int );
+static boolean qsort(
+    COMPARE_FUNCTION*       compare,
+    SWAP_FUNCTION*          swap,
+    void*                   target,
+    int                     low,
+    int                     high
+);
 
 /*
  * Function: qsort
@@ -21,12 +27,16 @@ static boolean qsort(int*, int , int );
  *     low: index of the first element, starts from 0.
  *     high: indext of the last elemnt, end at length-1.
  */
-static boolean qsort(int* target, int low, int high){
-    int offsetl = low;
-    int offseth = high;
+static boolean qsort(
+    COMPARE_FUNCTION*       compare,
+    SWAP_FUNCTION*          swap,
+    void*                   target,
+    int                     low,
+    int                     high
+){
+    int                     offsetl = low;
+    int                     offseth = high;
 
-    int temp;
-    int pivot = *(target+low);
     boolean                 ret;
 
     if (offsetl > offseth){
@@ -37,11 +47,6 @@ static boolean qsort(int* target, int low, int high){
         return TRUE;
     }
 
-    /*
-     * An extra unecessary swap exists in this while:
-     * When offsetl equals to offseth, there is no need to do the exchange.
-     * and unfortunately, this will definitely happen.
-     */
     while (offsetl < offseth){
         /* 
          * Have to find the first less-than-pivot element before 
@@ -49,35 +54,49 @@ static boolean qsort(int* target, int low, int high){
          * later.
          */
 
-        while (*(target+offseth) >= pivot && offsetl < offseth) offseth--;
-        while (*(target+offsetl) <= pivot && offsetl < offseth) offsetl++;
+        while ((*compare) (target, offseth, low) && (offsetl < offseth))
+        {
+            offseth--;
+        }
+        while ((*compare) (target, low, offsetl) && (offsetl < offseth))
+        {
+            offsetl++;
+        }
 
         /* Swap offsetl and offseth element */
 
+/*
+        printf ("%*d %*d\n", 3, *(target+offsetl), 3, *(target+offseth));
         temp = *(target+offsetl);
         *(target+offsetl) = *(target+offseth);
         *(target+offseth) = temp;
+*/
 
-/*        SWAP((*(target+offsetl)),(*(target+offseth)));*/
+        if (offsetl != offseth)
+            swap (target, offsetl, offseth);
+
     }
 
     /* Put pivot to its right place */
 
-    temp = *(target+offsetl);
-    *(target+offsetl) = pivot;
-    *(target+low) = temp;
+    if (offsetl != low)
+        swap(target, offsetl, low);
 
-/*    SWAP((*(target+offsetl)),(*(target+low)));*/
     if(low!=offsetl){
-        ret = qsort(target, low, offsetl);
+        ret = qsort(compare, swap, target, low, offsetl);
     }
     if(high!=offsetl+1){
-        ret = qsort(target, offsetl+1, high);
+        ret = qsort(compare, swap, target, offsetl+1, high);
     }
 
     return ret;
 }
 
-boolean sort(int* target, int length, ...){
-    return qsort(target, 0, length-1);
+boolean sort(
+    COMPARE_FUNCTION*       compare,
+    SWAP_FUNCTION*          swap,
+    void*                   target,
+    int                     length
+){
+    return qsort(compare, swap, target, 0, length-1);
 }
