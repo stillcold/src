@@ -1,25 +1,15 @@
-#include "stdio.h"
-
-#define true 1
-#define false 0
-
-typedef int boolean;
-
-static boolean sort(int* , int, ...);
+/**************************************************************************                                                                              
+ *                                                                                                                                                       
+ * A simple implementation of quick_sort_.                                                                                                            
+ *                                                                                                                                                       
+ * Copyright (c) 2013, Chao Guan <mr_kernel@163.com>                                                                                                     
+ * All rights reserved.                                                                                                                                  
+ *                                                                                                                                                       
+ *************************************************************************/
+#include "myutilities.h"
+#include <stdio.h>
 
 static boolean qsort(int*, int , int );
-
-int main(void){
-    int index;
-    int numbers[10]={7,1,2,4,3,8,9,0,6,5};//target to be sorted.
-    int length = sizeof(numbers)/sizeof(int);
-    sort(numbers,length);
-    for(index=0; index < length; index++){
-        printf("%*d",3,numbers[index]);
-    }
-    printf("\n");
-    return 0;
-}
 
 /*
  * Function: qsort
@@ -35,16 +25,16 @@ static boolean qsort(int* target, int low, int high){
     int offsetl = low;
     int offseth = high;
 
-    int pivot = *(target+low);
     int temp;
-    int ret = 0;
+    int pivot = *(target+low);
+    boolean                 ret;
 
     if (offsetl > offseth){
-        return -1;
+        return FALSE;
     }
 
     if (offsetl == offseth){
-        return 0;
+        return TRUE;
     }
 
     /*
@@ -67,6 +57,8 @@ static boolean qsort(int* target, int low, int high){
         temp = *(target+offsetl);
         *(target+offsetl) = *(target+offseth);
         *(target+offseth) = temp;
+
+/*        SWAP((*(target+offsetl)),(*(target+offseth)));*/
     }
 
     /* Put pivot to its right place */
@@ -75,6 +67,7 @@ static boolean qsort(int* target, int low, int high){
     *(target+offsetl) = pivot;
     *(target+low) = temp;
 
+/*    SWAP((*(target+offsetl)),(*(target+low)));*/
     if(low!=offsetl){
         ret = qsort(target, low, offsetl);
     }
@@ -85,6 +78,6 @@ static boolean qsort(int* target, int low, int high){
     return ret;
 }
 
-static boolean sort(int* target, int length, ...){
+boolean sort(int* target, int length, ...){
     return qsort(target, 0, length-1);
 }

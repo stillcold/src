@@ -5,6 +5,7 @@
 SOURCECODE += ./data_structure/RB_Tree.c \
               ./utilities/gcd.c \
               ./utilities/Knuth_Morris_Pratt.c \
+              ./utilities/quick_sort_.c \
               ./data_structure/Linked_list.c
 
 BINDIR = ../../bin
