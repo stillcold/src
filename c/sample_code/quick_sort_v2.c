@@ -31,11 +31,11 @@ int main(void){
  *     low: index of the first element, starts from 0.
  *     high: indext of the last elemnt, end at length-1.
  */
-boolean qsort(int* target, int low, int high){
+static boolean qsort(int* target, int low, int high){
     int offsetl = low;
     int offseth = high;
 
-    int ref = *(target+low);
+    int pivot = *(target+low);
     int temp;
     int ret = 0;
 
@@ -47,17 +47,32 @@ boolean qsort(int* target, int low, int high){
         return 0;
     }
 
+    /*
+     * An extra unecessary swap exists in this while:
+     * When offsetl equals to offseth, there is no need to do the exchange.
+     * and unfortunately, this will definitely happen.
+     */
     while (offsetl < offseth){
-        while (*(target+offseth) >= ref && offsetl < offseth) offseth--;
-        while (*(target+offsetl) <= ref && offsetl < offseth) offsetl++;
+        /* 
+         * Have to find the first less-than-pivot element before 
+         * the first larger-than-pivot element, then we will do a swap 
+         * later.
+         */
+
+        while (*(target+offseth) >= pivot && offsetl < offseth) offseth--;
+        while (*(target+offsetl) <= pivot && offsetl < offseth) offsetl++;
+
+        /* Swap offsetl and offseth element */
 
         temp = *(target+offsetl);
         *(target+offsetl) = *(target+offseth);
         *(target+offseth) = temp;
     }
 
+    /* Put pivot to its right place */
+
     temp = *(target+offsetl);
-    *(target+offsetl) = ref;
+    *(target+offsetl) = pivot;
     *(target+low) = temp;
 
     if(low!=offsetl){
@@ -70,6 +85,6 @@ boolean qsort(int* target, int low, int high){
     return ret;
 }
 
-boolean sort(int* target, int length, ...){
+static boolean sort(int* target, int length, ...){
     return qsort(target, 0, length-1);
 }

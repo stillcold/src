@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * A simple implement of Red-Black-Tree.
+ * A simple implementation of Red-Black-Tree.
  *
  * Copyright (c) 2013, Chao Guan <mr_kernel@163.com>
  * All rights reserved.
