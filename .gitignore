@@ -6,3 +6,4 @@ c/upper_layer/*.o
 outgoing/*
 outgoing
 *a.out
+tags
