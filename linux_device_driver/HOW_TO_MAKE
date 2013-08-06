@@ -1,0 +1,16 @@
+Anyway, a kernel source code should be avaliable, and should be a configed
+one:
+    cd <PATH_TO_CURRENT_KERNEL_SOURCE_CODE>
+    make localyesconfig
+
+Firstly, prepare any necessary files which will used by modules:
+    make modules_prepare
+
+Secondly, build the module:
+    make -C <PATH_TO_CURRENT_KERNEL_SOURCE_CODE> -M=`pwd` modules
+
+Thirdly, install this module:
+    sudo insmode ./<MODULE_FILENAME.ko>
+
+After all, UNinstall it:
+    sudo rmmod <MODULE_FILENAME>
