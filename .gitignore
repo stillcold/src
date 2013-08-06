@@ -11,5 +11,7 @@ linux_device_driver/*mod
 linux_device_driver/*ko
 linux_device_driver/*order
 linux_device_driver/*mod.c
+linux_device_driver/*o
+linux_device_driver/*symvers
 script/Makefile.config1
 tags
