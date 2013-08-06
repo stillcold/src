@@ -6,4 +6,9 @@ c/upper_layer/*.o
 outgoing/*
 outgoing
 *a.out
+linux_device_driver/*cmd
+linux_device_driver/*mod
+linux_device_driver/*ko
+linux_device_driver/*order
+linux_device_driver/*mod.c
 tags

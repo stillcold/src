@@ -1,0 +1,1 @@
+cmd_/home/gc/workspace/src/linux_device_driver/hello_world_module.ko := ld -r -m elf_i386 -T /usr/src/linux-source-3.2.0/linux-source-3.2.0/scripts/module-common.lds --build-id  -o /home/gc/workspace/src/linux_device_driver/hello_world_module.ko /home/gc/workspace/src/linux_device_driver/hello_world_module.o /home/gc/workspace/src/linux_device_driver/hello_world_module.mod.o
