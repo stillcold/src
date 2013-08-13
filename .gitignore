@@ -3,6 +3,7 @@ c/*.o
 c/data_structure/*.o
 c/utilities/*.o
 c/upper_layer/*.o
+c/asm/*.o
 outgoing/*
 outgoing
 *a.out
