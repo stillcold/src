@@ -9,6 +9,16 @@ typedef boolean (COMPARE_FUNCTION) (void *target, int offset_1, int offset_2);
 
 typedef void (SWAP_FUNCTION) (void *target, int offset_1, int offset_2);
 
+typedef struct date_and_time {
+    u16                     year;
+    u8                      month;
+    u8                      date;
+    u8                      week;
+    u8                      hour;
+    u8                      minute;
+    u8                      second;
+} DATE_AND_TIME; 
+
 /**************************************************************************
  *
  * Note:
@@ -79,5 +89,94 @@ sort (
     void*                   target,
     int                     length
 );
+
+
+/**************************************************************************
+ *
+ * bit_operation.c
+ *
+ * DESCRIPTION: Get the corresponding data type width in a certain platform
+ *
+ *************************************************************************/
+
+int get_max_int_bit(void); /* Always 32 */
+int get_max_long_bit(void); /* Always 32 or 64 */
+int get_max_long_long_bit(void); /* Always 64 */
+
+
+/**************************************************************************
+ *
+ * bit_operation.c
+ *
+ * DESCRIPTION: Set the Nth bit of a unsigned int to 1
+ *
+ *************************************************************************/
+
+void set_bit(unsigned *address, int n);
+
+
+/**************************************************************************
+ *
+ * bit_operation.c
+ *
+ * PARAMETERS: Va_args should be int.
+ *
+ * DESCRIPTION: Set muti-bit of a unsigned int to 1.
+ *              Use it in this way:
+ *                  set_bits(&number, 1, 2, 3)
+ *
+ *************************************************************************/
+
+void set_bits(unsigned *address, ...);
+
+
+/**************************************************************************
+ *
+ * bit_operation.c
+ *
+ * PARAMETERS:  p -> place/index, count from right
+ *              n -> length, count from left
+ *
+ * DESCRIPTION: Get the last n bits of x from index p.
+ *              Use it in this way:
+ *                  get_bits(0000 0111, 3, 3) -> 111
+ *                  get_bits(0001 1111, 5, 5) -> 11111
+ *
+ *************************************************************************/
+
+unsigned get_bits(unsigned x, int p, int n);
+
+
+/**************************************************************************
+ *
+ * time_and_date.c
+ *
+ * DESCRIPTION:
+ *              Use it in this way:
+ *                  get_day_of_year(.year = 2013, .month = 1, .day = 3)
+ *                          -> 3
+ *
+ *************************************************************************/
+
+u16 get_day_of_year(DATE_AND_TIME date_and_time);
+
+
+/**************************************************************************
+ *
+ * time_and_date.c
+ *
+ *************************************************************************/
+
+boolean is_leap_year(u16 year);
+
+
+/**************************************************************************
+ *
+ * time_and_date.c
+ *
+ *************************************************************************/
+
+char *get_month_name(DATE_AND_TIME date_and_time);
+
 
 #endif
