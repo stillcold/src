@@ -1,9 +1,10 @@
 .PHONY : all
 all : ${PROGS}
 
-${PROGS} : ${COMPILEOBJ}
-	${CC}  -o $(BINDIR)/$(PROGS) $(COMPILEOBJ) $(LDFLAG)
+${PROGS} : ${COMPILEOBJ} ${ASMOBJ}
+	${CC}  -o $(BINDIR)/$(PROGS) $(COMPILEOBJ) $(ASMOBJ) $(LDFLAG)
 
 ${COMPILEOBJ} : %.o: %.c
 	${CC} -c ${CFLAGS} $(CWARNINGFLAGS) -o $@ $<
-
+${ASMOBJ} :
+	as -o ./asm/my_asm_functions.o ./asm/my_asm_functions.s
