@@ -35,7 +35,7 @@ typedef unsigned char       boolean;
 
 /* STDINT will be my first choice */
 
-#ifndef _STDINT_H
+#ifdef _STDINT_H
 
 typedef uint32_t            u32;
 typedef uint64_t            u64;
