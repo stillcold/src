@@ -4,6 +4,7 @@ c/data_structure/*.o
 c/utilities/*.o
 c/upper_layer/*.o
 c/asm/*.o
+c/service/*.o
 outgoing/*
 outgoing
 *a.out
