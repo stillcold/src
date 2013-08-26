@@ -18,6 +18,13 @@ extern u32                  Gbl_max_width;
 
 typedef u32                 elementtype;
 
+
+/**************************************************************************
+ *
+ * A list will be implemented below.
+ *
+ *************************************************************************/
+
 /* Node of a linked-list */
 
 typedef struct node
@@ -36,7 +43,7 @@ boolean printList(LIST_NODE *head);
 
 /**************************************************************************
  *
- * A Red-Black-Tree structure will be implemented below.
+ * A Red-Black-Tree will be implemented below.
  *
  *************************************************************************/
 
@@ -84,9 +91,26 @@ void print_tree(RB_TREE *tree);
 
 /*
  *
- * One have to implement this function to use all the intefaces.
+ * One has to implement this function to use all the intefaces.
  *
  */
 boolean compare_element (void *element_a, void *element_b);
+
+
+/**************************************************************************
+ *
+ * A Union-Find-Set will be implemented below.
+ *
+ *************************************************************************/
+
+void UF_set_init(void);
+
+void UF_set_create(u32 element);
+
+u32 UF_set_find(u32 element);
+
+u32 UF_set_get_number(u32 element);
+
+void UF_set_union(u32 element_A, u32 element_B);
 
 #endif
