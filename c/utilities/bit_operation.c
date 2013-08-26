@@ -87,3 +87,41 @@ void set_bits(unsigned *address, ...){
 unsigned get_bits(unsigned x, int p, int n){
     return (x >> (p + 1 - n) & ~(~0 << n));
 }
+
+/*
+ * This function is used to get ones in bit-format number
+ */
+int count_ones(int number){
+    int                     ret = 0;
+
+    while (number){
+        ret++;
+        /*
+         * This will walk from right to left to count a "one" at a time and
+         * and ignore all zeros at a time. e.g.:
+         *
+         * We have 11 (1011, 3 "1" in it)
+         *
+         * Step 1:
+         *          number = 11     |:bit-format:|-> 1011
+         *          number -1 = 10  |:bit-format:|-> 1010
+         *          number & (number -1)      |::|-> 1010
+         *  Thus, after one step, the last bit has been handled.
+         *
+         * Step 2:
+         *          number = 10     |:bit-format:|-> 1010
+         *          number-1 = 9    |:bit-format:|-> 1001
+         *          number &(number-1)        |::|-> 1000
+         *  Thus, after another step, only one "one" left. So, this is much
+         *  better than ">>" operation. It needs 3 steps in total.
+         *
+         * Reason:
+         *  The operation "-1" will turn every 0 bit to its oppsite(1). So
+         *  it can skip muti-zeros at a time, and 1 is the only thing that
+         *  make sense to it.
+         *
+         */
+        number &= (number-1);
+    }
+    return ret;
+}

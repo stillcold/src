@@ -6,6 +6,7 @@ int main(void){
     unsigned b =-1;
     unsigned c = 0;
     unsigned d = 1;
+    register int            number;
 
     printf("Int takes %d bits.\n", get_max_int_bit());
     printf("Long takes %d bits.\n", get_max_long_bit());
@@ -19,5 +20,10 @@ int main(void){
     printf("get -1, 8, 8 -> %u\n", get_bits(b, 8 , 8));
     printf("get 0, 8, 8 -> %u\n", get_bits(c, 8 , 8));
     printf("get 1, 8, 8 -> %u\n", get_bits(d, 8 , 8));
+    printf("Test count ones:\n");
+    for(number = 0; number < 33; number++){
+        printf("%d has %d one(s) in it.\n", number, count_ones(number));
+    }
+
     return 0;
 }
