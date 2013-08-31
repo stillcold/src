@@ -1,4 +1,4 @@
-#include "myutilities.h"
+#include "myalgorithm.h"
 #include "mytypes.h"
 #include <string.h>
 

@@ -1,5 +1,5 @@
 #include "mytypes.h"
-#include "myutilities.h"
+#include "myalgorithm.h"
 
 u32 gcd (u32 num_A, u32 num_B)
 {

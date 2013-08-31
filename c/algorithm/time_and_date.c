@@ -1,4 +1,4 @@
-#include "myutilities.h"
+#include "myalgorithm.h"
 #include "mytypes.h"
 
 /* Seems that month[][] can't work, neither can month[2][] */

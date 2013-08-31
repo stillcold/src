@@ -1,5 +1,5 @@
-#ifndef _MYUTILITIES_H
-#define _MYUTILITIES_H
+#ifndef _MYALGORITHM_H
+#define _MYALGORITHM_H
 
 #include "mytypes.h"
 

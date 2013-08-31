@@ -1,4 +1,4 @@
-#include "myutilities.h"
+#include "myalgorithm.h"
 
 static void adjust_heap(int index, int length);
 static void construct_heap(int length);

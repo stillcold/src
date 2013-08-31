@@ -6,7 +6,7 @@
  * All rights reserved.                                                                                                                                  
  *                                                                                                                                                       
  *************************************************************************/
-#include "myutilities.h"
+#include "myalgorithm.h"
 #include <stdio.h>
 
 static boolean qsort(
