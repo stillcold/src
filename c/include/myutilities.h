@@ -190,5 +190,14 @@ boolean is_leap_year(u16 year);
 
 char *get_month_name(DATE_AND_TIME date_and_time);
 
+/**************************************************************************
+ *
+ * Ut_heap_sort.c
+ *
+ *************************************************************************/
+
+#define HEAP_MAX_LENGTH    100
+
+void heap_sort(int length);
 
 #endif
