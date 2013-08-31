@@ -200,4 +200,19 @@ char *get_month_name(DATE_AND_TIME date_and_time);
 
 void heap_sort(int length);
 
+
+/**************************************************************************
+ *
+ * agbitmap.c
+ *
+ *************************************************************************/
+
+#define MAP_MAX_LENGTH      1000
+
+void set_bit_in_map(int index);
+
+void reset_bit_in_map(int index);
+
+boolean check_bit_in_map(int index);
+
 #endif
