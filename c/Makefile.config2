@@ -6,8 +6,8 @@ SOURCECODE += ./data_structure/RB_Tree.c \
               ./algorithm/gcd.c \
               ./algorithm/Knuth_Morris_Pratt.c \
               ./algorithm/quick_sort_.c \
-              ./algorithm/bit_operation.c \
-              ./algorithm/time_and_date.c \
+              ./tools/bit_operation.c \
+              ./tools/time_and_date.c \
               ./algorithm/Ut_heap_sort.c \
               ./service/SvState.c \
               ./data_structure/DsUnionFindSets.c \

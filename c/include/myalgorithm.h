@@ -9,16 +9,6 @@ typedef boolean (COMPARE_FUNCTION) (void *target, int offset_1, int offset_2);
 
 typedef void (SWAP_FUNCTION) (void *target, int offset_1, int offset_2);
 
-typedef struct date_and_time {
-    u16                     year;
-    u8                      month;
-    u8                      date;
-    u8                      week;
-    u8                      hour;
-    u8                      minute;
-    u8                      second;
-} DATE_AND_TIME; 
-
 /**************************************************************************
  *
  * Note:
@@ -158,37 +148,6 @@ unsigned get_bits(unsigned x, int p, int n);
 
 int count_ones(int number);
 
-
-/**************************************************************************
- *
- * time_and_date.c
- *
- * DESCRIPTION:
- *              Use it in this way:
- *                  get_day_of_year(.year = 2013, .month = 1, .day = 3)
- *                          -> 3
- *
- *************************************************************************/
-
-u16 get_day_of_year(DATE_AND_TIME date_and_time);
-
-
-/**************************************************************************
- *
- * time_and_date.c
- *
- *************************************************************************/
-
-boolean is_leap_year(u16 year);
-
-
-/**************************************************************************
- *
- * time_and_date.c
- *
- *************************************************************************/
-
-char *get_month_name(DATE_AND_TIME date_and_time);
 
 /**************************************************************************
  *

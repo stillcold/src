@@ -1,5 +1,7 @@
-#include "myalgorithm.h"
+#include "mytools.h"
 #include "mytypes.h"
+
+static struct timeval       start, stop;
 
 /* Seems that month[][] can't work, neither can month[2][] */
 
@@ -48,4 +50,32 @@ u16 get_day_of_year(DATE_AND_TIME date_and_time){
 char *get_month_name(DATE_AND_TIME date_and_time){
     return (date_and_time.month < 1 || date_and_time.month > 12) ?
         month_name[0] : month_name[date_and_time.month];
+}
+
+void mark_start(){
+    gettimeofday(&start, 0);
+}
+
+void mark_stop(){
+    gettimeofday(&stop, 0);
+}
+
+void get_time_difference
+(struct timeval *diff, struct timeval *start, struct timeval *stop){
+    if ( start->tv_sec > stop->tv_sec )
+        return;
+
+    if ((start->tv_sec == stop->tv_sec)
+        && (start->tv_usec > stop->tv_usec)){
+        return;
+    }
+
+    diff->tv_sec = ( stop->tv_sec - start->tv_sec );
+    diff->tv_usec = ( stop->tv_usec - start->tv_usec );
+
+    if (diff->tv_usec < 0)
+    {
+        diff->tv_sec--;
+        diff->tv_usec += 1000000;
+    }
 }

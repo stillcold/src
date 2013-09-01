@@ -2,6 +2,7 @@ c/Makefile.config1
 c/*.o
 c/data_structure/*.o
 c/algorithm/*.o
+c/tools/*.o
 c/upper_layer/*.o
 c/asm/*.o
 c/service/*.o
