@@ -1,6 +1,7 @@
 #ifndef _MYALGORITHM_H
 #define _MYALGORITHM_H
 
+#include "myconfig.h"
 #include "mytypes.h"
 
 #define MAX_PATTERN_LENGTH  100
@@ -155,9 +156,13 @@ int count_ones(int number);
  *
  *************************************************************************/
 
-#define HEAP_MAX_LENGTH    100
+
+#define HEAP_MAX_SIZE       101
+#define HEAP_MAX_LENGTH     100
 
 void heap_sort(int length);
+
+void print_heap(int length);
 
 
 /**************************************************************************
@@ -166,12 +171,18 @@ void heap_sort(int length);
  *
  *************************************************************************/
 
-#define MAP_MAX_LENGTH      1000
+#define MAP_MAX_LENGTH      10000
 
-void set_bit_in_map(int index);
+void set_bit_in_map(u32 index);
 
-void reset_bit_in_map(int index);
+void reset_bit_in_map(u32 index);
 
-boolean check_bit_in_map(int index);
+boolean check_bit_in_map(u32 index);
+
+#ifdef DEBUG_MODE
+
+void show_bitmap(void);
+
+#endif
 
 #endif

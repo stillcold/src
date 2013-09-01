@@ -1,39 +1,65 @@
 #include "myalgorithm.h"
-#include <stdio.h>
+#include "mytools.h"
+#include "mytypes.h"
+#include "sys/time.h"
 
-int                         i;
+#include <stdio.h>
 
 void init(void);
 
-extern int                  heap[HEAP_MAX_LENGTH];
+u32                         i;
+extern int                  heap[HEAP_MAX_SIZE];
+int                         array[HEAP_MAX_SIZE];
+struct timeval              time_count;
 
 void init(void){
-    heap[0] = 5;
-    heap[1] = 4;
-    heap[2] = 1;
-    heap[3] = 2;
-    heap[4] = 0;
-    heap[5] = 3;
-    heap[6] = 9;
-    heap[7] = 7;
-    heap[8] = 8;
-    heap[9] = 6;
+    /* Init heap */
+    for (i = 1; i < HEAP_MAX_LENGTH; i++){
+        array[i] = heap[i] = get_rand_number((HEAP_MAX_LENGTH - 1) * 10);
+    }
 }
 
 int main(void){
     init();
 
-    for(i = 0; i < 10; i++){
-        printf("%d\t",heap[i]);
+#ifdef DEBUG_MODE
+    print_heap(HEAP_MAX_LENGTH);
+#endif
+
+    mark_start();
+    heap_sort(HEAP_MAX_LENGTH);
+    mark_stop();
+    get_time_difference(&time_count);
+
+    printf("Time taken by heap sort: %d\n",(int)time_count.tv_usec);
+
+#ifdef DEBUG_MODE
+    print_heap(HEAP_MAX_LENGTH);
+#endif
+
+#ifdef DEBUG_MODE
+    printf("Sort with bitmap.\n");
+#endif
+
+    /* Bitmap sort algorithm */
+    mark_start();
+    for (i = 1; i < HEAP_MAX_LENGTH; i++){
+        set_bit_in_map((unsigned)array[i]);
+    }
+    mark_stop();
+    get_time_difference(&time_count);
+
+    printf("Time taken by bitmap sort: %d\n",(int)time_count.tv_usec);
+
+#ifdef DEBUG_MODE
+    show_bitmap();
+    for (i = 1; i < MAP_MAX_LENGTH; i++){
+        if (check_bit_in_map(i)){
+            printf("%u\t", i);
+        }
     }
     printf("\n");
-
-    heap_sort(10);
-
-    for(i = 0; i < 10; i++){
-        printf("%d\t",heap[i]);
-    }
-    printf("\n");
+#endif
 
     return 0;
 }

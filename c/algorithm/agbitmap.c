@@ -1,5 +1,8 @@
 #include "myalgorithm.h"
 #include "mytypes.h"
+#ifdef DEBUG_MODE
+#include <stdio.h>
+#endif
 
 #define BITSOFU32           32
 #define MASK                0x1f/* 0001 1111*/
@@ -11,7 +14,7 @@
  *
  *************************************************************************/
 
-static u32                  map[1 + MAP_MAX_LENGTH >> WIDTH];
+static u32                  map[1 + (MAP_MAX_LENGTH >> WIDTH)];
 
 /**************************************************************************
  *
@@ -22,14 +25,27 @@ static u32                  map[1 + MAP_MAX_LENGTH >> WIDTH];
  *
  *************************************************************************/
 
-void set_bit_in_map(int index){
+void set_bit_in_map(u32 index){
     map[index >> WIDTH] |= 1 << (index & MASK);
 }
 
-void reset_bit_in_map(int index){
+void reset_bit_in_map(u32 index){
     map[index >> WIDTH] &= ~(1 << (index & MASK));
 }
 
-boolean check_bit_in_map(int index){
-    return (map[index >> WIDTH] & (1 << (index & MASK))) ? TURE : FALSE;
+boolean check_bit_in_map(u32 index){
+    return (map[index >> WIDTH] & (1 << (index & MASK))) ? TRUE : FALSE;
 }
+
+#ifdef DEBUG_MODE
+
+void show_bitmap(void){
+    register u32            i;
+
+    for (i = 0; i < (1 + (MAP_MAX_LENGTH >> WIDTH)); i++){
+        printf("%u\t",map[i]);
+    }
+    printf("\n");
+}
+
+#endif

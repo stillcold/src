@@ -3,6 +3,8 @@
 #ifndef _MYTYPES_H_
 #define _MYTYPES_H_
 
+#include "myconfig.h"
+
 typedef unsigned char       u8;
 typedef unsigned short      u16;
 

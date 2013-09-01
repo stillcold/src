@@ -8,7 +8,9 @@ SOURCECODE += ./data_structure/RB_Tree.c \
               ./algorithm/quick_sort_.c \
               ./tools/bit_operation.c \
               ./tools/time_and_date.c \
+              ./tools/tlrand.c \
               ./algorithm/Ut_heap_sort.c \
+              ./algorithm/agbitmap.c \
               ./service/SvState.c \
               ./data_structure/DsUnionFindSets.c \
               ./data_structure/Linked_list.c

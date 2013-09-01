@@ -1,6 +1,7 @@
 #ifndef _MYSTRUCTRURE_H
 #define _MYSTRUCTRURE_H
 
+#include "myconfig.h"
 #include "mytypes.h"
 
 /* A RB_TREE can has no more than MAX_NUM nodes */

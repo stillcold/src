@@ -1,6 +1,8 @@
 #include "mytools.h"
 #include "mytypes.h"
 
+#include <sys/time.h>
+
 static struct timeval       start, stop;
 
 /* Seems that month[][] can't work, neither can month[2][] */
@@ -52,26 +54,25 @@ char *get_month_name(DATE_AND_TIME date_and_time){
         month_name[0] : month_name[date_and_time.month];
 }
 
-void mark_start(){
+void mark_start(void){
     gettimeofday(&start, 0);
 }
 
-void mark_stop(){
+void mark_stop(void){
     gettimeofday(&stop, 0);
 }
 
-void get_time_difference
-(struct timeval *diff, struct timeval *start, struct timeval *stop){
-    if ( start->tv_sec > stop->tv_sec )
+void get_time_difference(struct timeval *diff){
+    if ( start.tv_sec > stop.tv_sec )
         return;
 
-    if ((start->tv_sec == stop->tv_sec)
-        && (start->tv_usec > stop->tv_usec)){
+    if ((start.tv_sec == stop.tv_sec)
+        && (start.tv_usec > stop.tv_usec)){
         return;
     }
 
-    diff->tv_sec = ( stop->tv_sec - start->tv_sec );
-    diff->tv_usec = ( stop->tv_usec - start->tv_usec );
+    diff->tv_sec = ( stop.tv_sec - start.tv_sec );
+    diff->tv_usec = ( stop.tv_usec - start.tv_usec );
 
     if (diff->tv_usec < 0)
     {

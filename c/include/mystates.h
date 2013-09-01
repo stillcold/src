@@ -1,6 +1,7 @@
 #ifndef _MYSTATES_H_
 #define _MYSTATES_H_
 
+#include "myconfig.h"
 #include "mytypes.h"
 
 typedef u32                 STATE;
