@@ -1,0 +1,68 @@
+Java编程首要工作就是安装JDK（Java Development Kit）。一通NEXT点完安装包后就是最重要的环境变量设置了。也许有人会问为什么要设置环境变量，要理解这点，首先要明白环境变量的作用。环境变量可以简单的理解为路径导向。例如Windows里面的临时文件夹存放的路径导向。当要访问此类文件时可根据此环境变量找到它的存放目录。像下面讲的CLASSPATH变量是为了在我们输入Java命令如javac等的时候不用敲入它的路径，系统自动根据环境变量设置找到其实际地址。 
+
+Java中常用需要设置的三个环境变量:JAVA_HOME（不必需）、CLASSPATH（必需）、PATH（必需） 
+以下是设置Java环境变量的四种方法： 
+1.相对路径（此方法需设置JAVA_HOME） 
+首先设置JAVA_HOME=X:\...\jdk1.6.0 
+X:\...\jdk1.6.0即为Java安装路径。 
+用%JAVA_HOME%就可以取代X:\...\jdk1.6.0这一部分 
+CLASSPATH=.;%JAVA_HOME%\lib\tools.jar;%JAVA_HOME%\lib\dt.jar; 
+PATH=.;%JAVA_HOME%\bin 
+2.绝对路径（此方法不需设置JAVA_HOME） 
+CLASSPATH=.;X:\...\jdk1.6.0\lib\tools.jar;X:\...\jdk1.6.0\lib\dt.jar; 
+PATH=.;X:\...\jdk1.6.0\bin; 
+3.批处理 
+把下面的代码复制粘贴到记事本里保存为.BAT批处理文件，双击执行，可以很方便设置环境变量。 
+@echo off 
+IF EXIST %1\bin\java.exe( 
+rem 如输入正确的 Java2SDK 安装目录，开始设置环境变量... 
+@setx JAVA_HOME %1 
+@setx path %path%;%JAVA_HOME%\bin 
+@setx classpath %classpath%;. 
+@setx classpath %classpath%;%JAVA_HOME%\lib\tools.jar 
+@setx classpath %classpath%;%JAVA_HOME%\lib\dt.jar  
+@echo on 
+@echo Java 2 SDK 环境参数设置完毕，正常退出。 
+) ELSE ( 
+IF "%1"=="" ( 
+rem 如没有提供安装目录，提示之后退出 
+@echo on 
+@echo 没有提供 Java2SDK 的安装目录,不做任何设置，现在退出环境变量设置。 
+) ELSE ( 
+rem 如果提供非空的安装目录但没有bin\java.exe，则指定的目录为错误的目录 
+@echo on 
+@echo 非法的 Java2SDK 的安装目录，不做任何设置，现在退出环境变量设置。 
+) 
+) 
+4.其它做法参考 
+cmd命令设置 
+SET PATH = X:\...\jdk1.6.0\bin 
+SET CLASSPATH=.;X:\...\jdk1.6.0\lib\dt.jar;X:\...\jdk1.6.0\lib\tools.jar（注意:等号后面是句点+分号） 
+设置过程中一些注意点（某些甚至是误区）： 
+
+1）PATH,CLASSPATH等大小写都无所谓（有些人可能会在这个上面纠缠很久） 
+2）最多只需要设置着3个变量（可能听别人说还有其他变量） 
+3）环境变量有系统变量和用户变量，设置成哪个都行。如果是系统变量的话对于所有登陆使用此电脑的用户都有效，用户变量只对相应用户起作用。 
+4）变量值最后的;(分号)可带可不带，处于中间位置的不可省略! 
+5）注意区别/、\。在WINDOWS里的路径名一般用\(反斜杠),但有时我们发现其实/也可以，推荐使用\。\在C/C++里是转义字符的意思，而/是HTTP，FTP协议的路径符号。 
+6）例子使用X:\...\jdk1.6.0是个活的路径，大家应根据自己的安装路径调整此变量。 
+
+在细心留意了这六点后，JDK安装设置应该没有问题。但是最好实际测试一下。也许有人说在DOS下输入JAVA -VERSION(JAVA后有空格)后出现版本信息就说明设置成功了。这实际上是不能说明任何问题。正确的方法应该是编写了一个JAVA小程序后，通过JAVAC编译成功生成CLASS文件才表示我们的设置是正确的。 
+
+测试代码如下： 
+public class Test 
+{ 
+    public static void main(String[] args) 
+    { 
+        System.out.println("Hello World!"); 
+    } 
+} 
+
+用记事本编辑后存为Test.java（文件名必须与类名相同）文件，打开命令行窗口，cd到文件所在目录下: 
+
+javac Test.java        //编译命令 
+
+java Test                 //执行程序 
+
+如果输出为：Hello World! 
+配置成功，否则重新检查。
