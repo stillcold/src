@@ -17,15 +17,19 @@ void init(void){
     for (i = 1; i < HEAP_MAX_LENGTH; i++){
         array[i] = heap[i] = get_rand_number((HEAP_MAX_LENGTH - 1) * 10);
     }
+    /*dp-demo*/
+    init_dp_array();
 }
 
 int main(void){
+
     init();
 
 #ifdef DEBUG_MODE
     print_heap(HEAP_MAX_LENGTH);
 #endif
 
+    /* Heap sort */
     mark_start();
     heap_sort(HEAP_MAX_LENGTH);
     mark_stop();
@@ -60,6 +64,9 @@ int main(void){
     }
     printf("\n");
 #endif
+
+    /* Algorithm: dp */
+    printf("This is dp result: %d\n", dp_demo(5));
 
     return 0;
 }

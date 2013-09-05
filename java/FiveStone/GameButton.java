@@ -1,4 +1,4 @@
-package five;
+package FiveStone;
 
 import java.applet.Applet;
 import java.applet.AudioClip;

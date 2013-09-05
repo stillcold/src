@@ -1,4 +1,4 @@
-package five;
+package FiveStone;
 
 import java.awt.*;
 import java.awt.event.*;

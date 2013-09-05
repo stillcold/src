@@ -1,4 +1,4 @@
-package five;
+package FiveStone;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

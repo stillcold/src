@@ -1,4 +1,4 @@
-package five;
+package FiveStone;
 
 import sun.audio.*; //ÒıÈësun.audio°ü
 import java.io.*;
