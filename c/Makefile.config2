@@ -10,7 +10,7 @@ SOURCECODE += ./data_structure/RB_Tree.c \
               ./tools/time_and_date.c \
               ./tools/tlrand.c \
               ./algorithm/Ut_heap_sort.c \
-              ./algorithm/agdp.c \
+              ./algorithm/ag_dp.c \
               ./algorithm/ag_bitmap.c \
               ./service/SvState.c \
               ./data_structure/DsUnionFindSets.c \
