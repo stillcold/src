@@ -11,7 +11,7 @@ SOURCECODE += ./data_structure/RB_Tree.c \
               ./tools/tlrand.c \
               ./algorithm/Ut_heap_sort.c \
               ./algorithm/agdp.c \
-              ./algorithm/agbitmap.c \
+              ./algorithm/ag_bitmap.c \
               ./service/SvState.c \
               ./data_structure/DsUnionFindSets.c \
               ./data_structure/Linked_list.c
