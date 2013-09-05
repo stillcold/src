@@ -1,10 +1,10 @@
-/**************************************************************************                                                                              
- *                                                                                                                                                       
- * A simple implementation of quick_sort_.                                                                                                            
- *                                                                                                                                                       
- * Copyright (c) 2013, Chao Guan <mr_kernel@163.com>                                                                                                     
- * All rights reserved.                                                                                                                                  
- *                                                                                                                                                       
+/**************************************************************************
+ *
+ * A simple implementation of quick_sort_.
+ *
+ * Copyright (c) 2013, Chao Guan <mr_kernel@163.com>
+ * All rights reserved.
+ *
  *************************************************************************/
 #include "myalgorithm.h"
 #include <stdio.h>
