@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-#include "mystates.h"
+#include "mystatus.h"
 
 static void print_info(u8 level);
 
-void decode_state(STATE state){
+void decode_status(STATUS state){
     /* In fact, 1 is just OK, it is for fun and useless */
     u8                      one = 01;
     u8                      level = 0x1;
