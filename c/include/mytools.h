@@ -59,8 +59,9 @@ void get_time_difference(struct timeval *diff);
 /**************************************************************************
  *
  * tlrandnumber.c
+ * Return numbers belongs to [0, range)
  *
  *************************************************************************/
-int get_rand_number(int range);
+int get_random_number(int range);
 
 #endif /* _MYSTATES_H_ */

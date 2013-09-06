@@ -5,11 +5,11 @@
 
 static boolean              is_inited = FALSE;
 
-int get_rand_number(int range){
+int get_random_number(int range){
     if (!is_inited){
         srand((unsigned) time(NULL));
         is_inited = TRUE;
     }
 
-    return rand() % range + 1;
+    return rand() % range;
 }
