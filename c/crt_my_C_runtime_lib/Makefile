@@ -1,2 +1,2 @@
-include ./Makefile.common
+include ./Makefile.config
 include ./Makefile.rules
