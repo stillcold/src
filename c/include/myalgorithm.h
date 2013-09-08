@@ -3,6 +3,7 @@
 
 #include "myconfig.h"
 #include "mytypes.h"
+#include "mystatus.h"
 
 #define MAX_PATTERN_LENGTH  100
 
@@ -195,5 +196,25 @@ void show_bitmap(void);
 int dp_demo(int depth);
 
 void init_dp_array(void);
+
+
+/**************************************************************************
+ *
+ * ag_Artificial_Neural_Network.c
+ *
+ *************************************************************************/
+
+/* Program will be terminated when difference smaller than this value*/
+#define TARGET_ERROR_VALUE  0.0009
+#define MAX_LOOP_TIMES      10000000
+
+STATUS initiate_neural_network(void);
+STATUS train_neural_network(void);
+STATUS get_delta(void);
+STATUS modify_network_weight(void);
+double proceed(double fan_in);
+double new_rate(double original_rate, double guard);
+double incentive_function(double fan_in);
+double get_differential_coefficient(double fan_in);
 
 #endif

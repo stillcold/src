@@ -1,3 +1,4 @@
+#include "myalgorithm.h"
 #include "mystatus.h"
 #include "mytypes.h"
 #include "mytools.h" /* get_random_number */
@@ -9,8 +10,8 @@
  * Copyright (c) 2013 Chao Guan (mr_kernel@163.com)
  * All rights reserved.
  *
- * This is the so called "BP" algorithm, an artificial network algorithm
- * with feed back network.
+ * This is the so called "BP" algorithm, an artificial neural network
+ * algorithm with feed back network.
  *
  * In this code, y = cos(x) is the target functon to be simualted.
  *
@@ -23,17 +24,12 @@
  *
  *************************************************************************/
 #define NUM_OF_INPUT_NODE   1 /* Number of input nodes */
-#define NUM_OF_INVISIBLE_NODE   9 /* Number of invisible nodes */
+#define NUM_OF_INVISIBLE_NODE   4 /* Number of invisible nodes */
 #define NUM_OF_OUTPUT_NODE  1 /* Number of output nodes */
 #define SCALE_OF_SAMPLE     100
 #define STEP_OF_SAMPLE      0.01
 
-/* Program will be terminated when difference smaller than this value*/
-#define TARGET_ERROR_VALUE  0.02
-#define MAX_LOOP_TIMES      10000
-#define e                   2.718
-
-double sum_of_erroe_per_round;
+double sum_of_error_per_round;
 double coefficient_of_incentive_function;
 double coefficient_of_modify_function;
 double weight_level_1[NUM_OF_INPUT_NODE][NUM_OF_INVISIBLE_NODE];
@@ -66,48 +62,39 @@ double real_output_of_output_node[SCALE_OF_SAMPLE][NUM_OF_OUTPUT_NODE];
 double delta_invisible_node[SCALE_OF_SAMPLE][NUM_OF_INVISIBLE_NODE];
 double delta_output_node[SCALE_OF_SAMPLE][NUM_OF_OUTPUT_NODE];
 
-STATUS initiate(void);
-STATUS train(void);
-STATUS get_delta(void);
-STATUS modify(void);
-STATUS proceed(void);
-double new_rate(double original_rate, double guard);
-double incentive_function(double fan_in);
-double get_differential_coefficient(double fan_in);
 
 /**************************************************************************
  *
  * Set weight for each level(not node).
  * Set delta for level above.
  * Set learning rate.
- * Get original sample to train the network.
+ * Get original sample to train_neural_network the network.
  *
  *************************************************************************/
 
-STATUS initiate(void){
+STATUS initiate_neural_network(void){
     register u32            i;
     register u32            j;
 
-    for (j = 0; j < NUM_OF_INVISIBLE_NODE; j++){
-        for (i = 0; i < NUM_OF_INPUT_NODE; i++){
-            /* (-50, 50) / 100 -> (-0.5, 0.5)*/
-            weight_level_1[i][j] = (get_random_number(100) - 50) * 0.01;
-            delta_level_1[i][j] = delta_level_1_last[i][j] = 0;
-            rate_level_1[i][j] = 0.01;
+    coefficient_of_incentive_function = 1;
+    coefficient_of_modify_function = 1;
+    for (i = 0; i < NUM_OF_INVISIBLE_NODE; i++){
+        for (j = 0; j < NUM_OF_INPUT_NODE; j++){
+            weight_level_1[j][i] = (get_random_number(100) - 50) * 0.01;
+            delta_level_1_last[j][i] = 0;
+            delta_level_1[j][i] = 0;
+            rate_level_1[j][i] = 0.01;
         }
-        for (i = 0; i < NUM_OF_OUTPUT_NODE; i++){
-            /* (-50, 50) / 100 -> (-0.5, 0.5)*/
+        for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
             weight_level_2[i][j] = (get_random_number(100) - 50) * 0.01;
-            delta_level_2[i][j] = delta_level_2_last[i][j] = 0;
+            delta_level_2_last[i][j] = 0;
+            delta_level_2[i][j] = 0;
             rate_level_2[i][j] = 0.01;
         }
     }
     for (i = 0; i < SCALE_OF_SAMPLE; i++){
-        j = 0;
-        /* for (j = 0; j < NUM_OF_INPUT_NODE; j++) , j has only one value - 0 */
-        input_for_input_node[i][j] = i * STEP_OF_SAMPLE;
-        /* for (j = 0; j < NUM_OF_OUTPUT_NODE; j++) , j has only one value - 0 */
-        desired_output_of_network[i][j] = cos (input_for_input_node[i][j]);
+        input_for_input_node[i][0] = i * STEP_OF_SAMPLE;
+        desired_output_of_network[i][0] = cos(input_for_input_node[i][0]);
     }
 
     return STATUS_OK;
@@ -123,37 +110,36 @@ STATUS initiate(void){
  *
  *************************************************************************/
 
-STATUS train(void){
+STATUS train_neural_network(void){
     register u32            i;
     register u32            j;
     register u32            k;
 
-    sum_of_erroe_per_round = 0;
-
+    sum_of_error_per_round = 0;
     for (i = 0; i < SCALE_OF_SAMPLE; i++){
         for (j = 0; j < NUM_OF_INVISIBLE_NODE; j++){
-            for (k = 0; k < NUM_OF_INPUT_NODE; k++){
-                input_for_invisible_node[i][j] =
-                    input_for_input_node[i][k] * weight_level_1[k][j];
+            input_for_invisible_node[i][j] = 0;
+            for (k=0; k<NUM_OF_INPUT_NODE; k++){
+                input_for_invisible_node[i][j] +=input_for_input_node[i][k]
+                    * weight_level_1[k][j];
             }
-            real_output_of_invisible_node[i][j] =
-                incentive_function(input_for_invisible_node[i][j]);
+            real_output_of_invisible_node[i][j] = incentive_function(
+                    input_for_invisible_node[i][j]);
         }
         for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
+            input_for_output_node[i][j] = 0;
             for (k = 0; k < NUM_OF_INVISIBLE_NODE; k++){
-                input_for_output_node[i][j] =
+                input_for_output_node[i][j] +=
                     real_output_of_invisible_node[i][k] *
                     weight_level_2[k][j];
             }
-            real_output_of_output_node[i][j] =
-                incentive_function(input_for_output_node[i][j]);
-            sum_of_erroe_per_round +=
+            real_output_of_output_node[i][j] = incentive_function(
+                    input_for_output_node[i][j]);
+            sum_of_error_per_round = sum_of_error_per_round + (
+                    real_output_of_output_node[i][j] -
+                    desired_output_of_network[i][j]) * 
                 (real_output_of_output_node[i][j] -
-                 desired_output_of_network[i][j])
-                *
-                (real_output_of_output_node[i][j] -
-                 desired_output_of_network[i][j])
-                * 0.5;
+                 desired_output_of_network[i][j] ) / 2;
         }
     }
 
@@ -177,21 +163,20 @@ STATUS get_delta(void){
 
     for (i = 0; i < SCALE_OF_SAMPLE; i++){
         for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
-
-            /* Target 1, the code is a little complex. ^_^ */
-            delta_output_node[i][j] = (desired_output_of_network[i][j] -
-                    real_output_of_output_node[i][j])
-                * get_differential_coefficient(
+            delta_output_node[i][j] = (desired_output_of_network[i][j] - 
+                    real_output_of_output_node[i][j]) *
+                get_differential_coefficient(
                         real_output_of_output_node[i][j]);
         }
         for (j = 0; j < NUM_OF_INVISIBLE_NODE; j++){
+            delta_invisible_node[i][j] = 0;
             for (k = 0; k < NUM_OF_OUTPUT_NODE; k++){
                 delta_invisible_node[i][j] = delta_output_node[i][k] *
-                    weight_level_2[k][j];
+                    weight_level_2[j][k] + delta_invisible_node[i][j];
             }
-            /* Target 2 */
-            delta_invisible_node[i][j] = get_differential_coefficient(
-                    real_output_of_invisible_node[i][j]);
+            delta_invisible_node[i][j] = delta_invisible_node[i][j] *
+                get_differential_coefficient(
+                        real_output_of_invisible_node[i][j]);
         }
     }
 
@@ -210,56 +195,65 @@ STATUS get_delta(void){
  *
  *************************************************************************/
 
-STATUS modify(void){
+STATUS modify_network_weight(void){
     register u32            i;
     register u32            j;
     register u32            k;
     double                  guard;
 
+    for (i = 0; i < NUM_OF_INVISIBLE_NODE; i++){
+        for (j = 0; j < NUM_OF_INPUT_NODE; j++){
+            delta_level_1[j][i] = 0;
+        }
+        for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
+            delta_level_2[i][j] = 0;
+        }
+    }
+
     /* Modify the weight of level 1 */
     for (i = 0; i < NUM_OF_INPUT_NODE; i++){
         for (j = 0; j < NUM_OF_INVISIBLE_NODE; j++){
             for (k = 0; k < SCALE_OF_SAMPLE; k++){
-                delta_level_1[i][j] = input_for_input_node[k][i] *
-                    delta_invisible_node[k][j];
+                delta_level_1[i][j] = delta_invisible_node[k][j] *
+                    input_for_input_node[k][i] + delta_level_1[i][j];
             }
             guard = delta_level_1[i][j] * delta_level_1_last[i][j];
-            rate_level_1[i][j] = new_rate(rate_level_1[i][j], guard);
-            
-            /* This is what we talking about */
+            rate_level_1[i][j] = new_rate(rate_level_1[i][j] , guard);
             weight_level_1[i][j] = weight_level_1[i][j] +
-                rate_level_1[i][j] * (coefficient * delta_level_1[i][j] +
-                        (1 - coefficient) * delta_level_1_last[i][j]);
+                rate_level_1[i][j] * (coefficient_of_modify_function *
+                        delta_level_1[i][j] +
+                        (1 - coefficient_of_modify_function) *
+                        delta_level_1_last[i][j] );
             delta_level_1_last[i][j] = delta_level_1[i][j];
         }
     }
 
-    /* Modify level 2 */
+    /* Modify the weight of level 2 */
     for (i = 0; i < NUM_OF_INVISIBLE_NODE; i++){
         for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
             for (k = 0; k < SCALE_OF_SAMPLE; k++){
-                delta_level_2[i][j] = real_output_of_invisible_node[k][i] *
-                    delta_output_node[k][j];
+                delta_level_2[i][j] = delta_output_node[k][j] *
+                    real_output_of_invisible_node[k][i] +
+                    delta_level_2[i][j];
             }
+
             guard = delta_level_2[i][j] * delta_level_2_last[i][j];
-            rate_level_2[i][j] = new_rate(rate_level_2[i][j], guard);
-            
-            /* This is what we talking about */
+            rate_level_2[i][j] = new_rate(rate_level_2[i][j] , guard);
             weight_level_2[i][j] = weight_level_2[i][j] +
-                rate_level_2[i][j] * (coefficient * delta_level_2[i][j] +
-                        (1 - coefficient) * delta_level_2_last[i][j]);
+                rate_level_2[i][j] * (coefficient_of_modify_function *
+                        delta_level_2[i][j] +
+                        (1 - coefficient_of_modify_function) *
+                        delta_level_2_last[i][j]);
             delta_level_2_last[i][j] = delta_level_2[i][j];
         }
     }
+
+    return STATUS_OK;
 }
 
 
 /**************************************************************************
  *
- * Step 1: preparation stage.
- *      get the output of invisible level node and output node.
- * Step 2: the last and most impossible stage.
- *      get the sum of error per round.
  *
  *************************************************************************/
 
@@ -267,22 +261,30 @@ double proceed(double fan_in){
     register u32            j;
     register u32            k;
 
+    input_for_input_node[0][0] = fan_in;
+
     for (j = 0; j < NUM_OF_INVISIBLE_NODE; j++){
+        input_for_invisible_node[0][j] = 0;
         for (k = 0; k < NUM_OF_INPUT_NODE; k++){
-            input_for_invisible_node[0][j] = fan_in * weight_level_1[k][j];
+            input_for_invisible_node[0][j] = input_for_input_node[0][k] *
+                weight_level_1[k][j] + input_for_invisible_node[0][j];
         }
-        real_output_of_invisible_node[0][j] =
-            incentive_function(input_for_invisible_node[0][j]);
-    }
-    for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
-        for (k = 0; k < NUM_OF_INVISIBLE_NODE; k++){
-            input_for_output_node[0][j] =
-                real_output_of_invisible_node[0][k] *
-                weight_level_2[k][j];
-        }
+        real_output_of_invisible_node[0][j] = incentive_function(
+                input_for_invisible_node[0][j]);
     }
 
-    return incentive_function(input_for_output_node[0][0]);
+    for (j = 0; j < NUM_OF_OUTPUT_NODE; j++){
+        input_for_output_node[0][j] = 0;
+        for (k = 0; k < NUM_OF_INVISIBLE_NODE; k++){
+            input_for_output_node[0][j] =
+                real_output_of_invisible_node[0][k] * weight_level_2[k][j]
+                + input_for_output_node[0][j];
+        }
+        real_output_of_output_node[0][j] = incentive_function(
+                input_for_output_node[0][j]);
+    }
+
+    return real_output_of_output_node[0][0];
 }
 
 /**************************************************************************
@@ -296,20 +298,16 @@ double proceed(double fan_in){
  *************************************************************************/
 
 double new_rate(double original_rate, double guard){
-    if (guard == 0)
-        return original_rate;
-
-    if (guard > 0)
-    {
+    if (guard > 0){
         if (original_rate < 0.04)
-            original_rate *= 2;
-        else
-            original_rate = 0.08;
-    } else {
-        if (original_rate > 0.02)
-            original_rate /= 2;
-        else
-            original_rate = 0.01;
+            original_rate = original_rate * 2;
+        else original_rate = 0.08;
+    }
+    else if (guard < 0){
+        if (original_rate >= 0.02){
+            original_rate = original_rate / 2;
+        }
+        else original_rate = 0.01;
     }
     return original_rate;
 }
@@ -325,7 +323,7 @@ double new_rate(double original_rate, double guard){
 double incentive_function(double fan_in){
     double                  ret;
 
-    ret = -(fan_in * coefficient);
+    ret = -(fan_in * coefficient_of_incentive_function);
     ret = exp (ret);
     ret = 1 / (ret + 1);
     return ret;
@@ -339,5 +337,5 @@ double incentive_function(double fan_in){
  *************************************************************************/
 
 double get_differential_coefficient(double fan_in){
-    return coefficient * fan_in * (1 - fan_in);
+    return coefficient_of_incentive_function * fan_in * (1 - fan_in);
 }
