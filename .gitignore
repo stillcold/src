@@ -6,6 +6,8 @@ c/tools/*.o
 c/upper_layer/*.o
 c/asm/*.o
 c/service/*.o
+c/crt_my_C_runtime_lib/*.o
+c/crt_my_C_runtime_lib/*.a
 outgoing/*
 outgoing
 *a.out
