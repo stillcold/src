@@ -1,0 +1,10 @@
+.PHONY : all
+all : link
+	ld -static -e mini_crt_entry entry.o test.o minicrt.a -o test
+link: comple_source
+	gcc -c -ggdb -fno-builtin -nostdlib -fno-stack-protector test.c
+comple_source: build_lib
+	ar -rs minicrt.a malloc.o printf.o stdio.o string.o
+build_lib: comple_lib
+	gcc -c -fno-builtin -nostdlib -fno-stack-protector entry.c malloc.c stdio.c string.c printf.c
+comple_lib:

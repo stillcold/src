@@ -1,0 +1,5 @@
+.PHONY : clean install
+clean :
+	rm *.o *.a temp.txt test
+install :
+	install -D $(BINDIR)/$(PROGS) $(BINDIR)/$(FINALPROCNAME)
