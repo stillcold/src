@@ -4,6 +4,7 @@ c/data_structure/*.o
 c/algorithm/*.o
 c/tools/*.o
 c/upper_layer/*.o
+c/upper_layer/input.txt
 c/asm/*.o
 c/service/*.o
 c/crt_my_C_runtime_lib/*.o
