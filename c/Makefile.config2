@@ -7,6 +7,7 @@ SOURCECODE += ./data_structure/RB_Tree.c \
               ./algorithm/Knuth_Morris_Pratt.c \
               ./algorithm/quick_sort_.c \
               ./algorithm/ag_Artificial_Neural_Network.c \
+              ./algorithm/ag_manacher.c \
               ./tools/bit_operation.c \
               ./tools/time_and_date.c \
               ./tools/tlrand.c \

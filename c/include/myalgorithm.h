@@ -4,6 +4,7 @@
 #include "myconfig.h"
 #include "mytypes.h"
 #include "mystatus.h"
+#include "mymacros.h"
 
 #define MAX_PATTERN_LENGTH  100
 
@@ -216,5 +217,19 @@ double proceed(double fan_in);
 double new_rate(double original_rate, double guard);
 double incentive_function(double fan_in);
 double get_differential_coefficient(double fan_in);
+
+/**************************************************************************
+ *
+ * ag_manacher.c
+ *
+ *************************************************************************/
+
+int manacher_length;
+
+char original_manacher_str[ONE_THOUSAND];
+int manacher_result[ONE_THOUSAND];
+
+void init_manacher(void);
+void manacher_do(void);
 
 #endif

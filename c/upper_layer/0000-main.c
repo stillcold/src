@@ -6,9 +6,11 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 void init_heap_and_dp(void);
 void test_aritificial_neural_network(void);
+void test_manacher(void);
 
 u32                         i;
 extern int                  heap[HEAP_MAX_SIZE];
@@ -75,6 +77,10 @@ int main(void){
 
     /* Algorithm: BP(artificial network) */
     test_aritificial_neural_network();
+
+    /* Algorithm: manacher */
+    test_manacher();
+
     return 0;
 }
 
@@ -114,5 +120,22 @@ void test_aritificial_neural_network(void){
     } else {
         printf("Error! Difference between real output and desired: %f\n",
                 sum_of_error_per_round);
+    }
+}
+
+void test_manacher(void){
+    register int i;
+    int ret;
+
+    while(scanf("%s", original_manacher_str) != EOF)
+    {
+        manacher_length = strlen(original_manacher_str);
+        init_manacher();
+        manacher_do();
+        ret = 0;
+        for (i = 0; i < manacher_length; i++)
+            if (manacher_result[i] > ret)
+                ret = manacher_result[i];
+        printf("%d\n", ret - 1);
     }
 }
