@@ -9,6 +9,7 @@ This is Chao's private repo!
 3. all this migrate from my another repo, that repo now is for another use.
 4. to use it on cygwin, we should copy "/usr/share/vim/vim74/vimrc_example.vim" to "~/.vimrc" 
 5. to commit the code, please use "git config --global user.name "<yourname>" "and "git config --global user.email "<yourmail>"  "
+6. it is better to add this to ~/.bash_profile "export PATH=${PATH}:<pathToThisRepo>/bin"
 
 ## usage:
 
