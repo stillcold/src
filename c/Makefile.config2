@@ -21,7 +21,8 @@ SOURCECODE += ./data_structure/RB_Tree.c \
 BINDIR = ../../bin
 OBJEXT =.o
 COMPILEOBJ = $(SOURCECODE:.c=$(OBJEXT))
-ASMOBJ = ./asm/my_asm_functions.o
+#cygwin can't understand the asm code
+#ASMOBJ = ./asm/my_asm_functions.o
 FINALPROCNAME = magic
 PROGS = proc.exe
 INCLUDEDIR = ./include/
