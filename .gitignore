@@ -9,9 +9,14 @@ c/asm/*.o
 c/service/*.o
 c/crt_my_C_runtime_lib/*.o
 c/crt_my_C_runtime_lib/*.a
+c_sharp/SendMail/SendMail/bin/*
+c_sharp/SendMail/SendMail/bin
+c_sharp/SendMail/SendMail/obj/*
+c_sharp/SendMail/SendMail/obj
 outgoing/*
 outgoing
 *a.out
+*.suo
 linux_device_driver/*cmd
 linux_device_driver/*mod
 linux_device_driver/*ko
