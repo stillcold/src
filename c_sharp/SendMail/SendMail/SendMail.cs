@@ -20,7 +20,7 @@ namespace SendMail
         /// <param name="fujian">附件</param> 
         /// <returns>send ok</returns> 
         /// 调用方法 Send("abc@126.com", "某某人", "cba@126.com", "你好", "我测试下邮件", "邮箱登录名", "邮箱密码", "smtp.126.com", ""); 
-        public static string Send(string from, string fromname, string to, string subject, string body, string username, string password, string server, string fujian)
+        public static string Send(string from, string fromname, string to, string subject, string body, string username, string password, string server, string fujian, SendCompletedEventHandler smtp_SendCompleted)
         {
 
             try
@@ -56,7 +56,9 @@ namespace SendMail
                 smtp.Credentials = new System.Net.NetworkCredential(username, password);
                 //超时时间 
                 smtp.Timeout = 10000;
-                smtp.Send(mail);
+                //smtp.Send(mail);
+                smtp.SendCompleted += smtp_SendCompleted;
+                smtp.SendAsync(mail,null);
                 return "send ok";
             }
             catch (Exception exp)
